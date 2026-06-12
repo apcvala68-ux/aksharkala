@@ -261,6 +261,7 @@ function CollectionFormModal({
   const [allProducts, setAllProducts] = useState<Product[]>([]);
   const [selectedProductIds, setSelectedProductIds] = useState<number[]>([]);
   const [productsLoading, setProductsLoading] = useState(false);
+  const [productSearch, setProductSearch] = useState("");
 
   useEffect(() => {
     if (open) {
@@ -279,6 +280,7 @@ function CollectionFormModal({
         setForm({ name: "", slug: "", description: "", cover_image: "", sort_order: 0, is_active: true });
         setSelectedProductIds([]);
       }
+      setProductSearch("");
     }
   }, [collection, open]);
 
@@ -408,52 +410,83 @@ function CollectionFormModal({
           {productsLoading ? (
             <div className="text-[12px] py-4" style={{ color: "#534344" }}>Loading products...</div>
           ) : (
-            <div className="max-h-[240px] overflow-y-auto rounded-lg border" style={{ borderColor: "#534344", background: "#15130d" }}>
-              {allProducts.length === 0 ? (
-                <div className="p-4 text-[12px] text-center" style={{ color: "#534344" }}>
-                  No products available. Create products first.
+            <>
+              {/* Search input */}
+              {allProducts.length > 0 && (
+                <div className="relative mb-3">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2" style={{ color: "#534344" }}>
+                    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="11" cy="11" r="8" />
+                      <line x1="21" y1="21" x2="16.65" y2="16.65" />
+                    </svg>
+                  </span>
+                  <input
+                    type="text"
+                    placeholder="Search products..."
+                    value={productSearch}
+                    onChange={(e) => setProductSearch(e.target.value)}
+                    className="w-full pl-9 pr-4 py-2.5 rounded-lg text-[12px] outline-none"
+                    style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+                  />
                 </div>
-              ) : (
-                allProducts.map((product) => {
-                  const isSelected = selectedProductIds.includes(product.id);
-                  return (
-                    <label
-                      key={product.id}
-                      className="flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-white/[0.02] border-b last:border-b-0"
-                      style={{ borderColor: "#534344" }}
-                    >
-                      <input
-                        type="checkbox"
-                        checked={isSelected}
-                        onChange={() => toggleProduct(product.id)}
-                        className="sr-only"
-                      />
-                      <div
-                        className="w-[18px] h-[18px] border rounded flex items-center justify-center transition-all shrink-0"
-                        style={{
-                          borderColor: isSelected ? "#C6A972" : "#534344",
-                          background: isSelected ? "#C6A972" : "transparent",
-                        }}
-                      >
-                        {isSelected && (
-                          <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
-                            <path d="M1 4L3.5 6.5L9 1" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                          </svg>
-                        )}
-                      </div>
-                      <div className="w-8 h-8 rounded overflow-hidden shrink-0" style={{ background: "#222018" }}>
-                        {product.images?.[0] ? (
-                          <Image src={product.images[0]} alt="" width={32} height={32} className="object-cover w-full h-full" />
-                        ) : null}
-                      </div>
-                      <span className="text-[13px] truncate" style={{ fontFamily: "var(--font-inter)", color: "#e8e2d6" }}>
-                        {product.title}
-                      </span>
-                    </label>
-                  );
-                })
               )}
-            </div>
+              <div className="max-h-[240px] overflow-y-auto rounded-lg border" style={{ borderColor: "#534344", background: "#15130d" }}>
+                {allProducts.length === 0 ? (
+                  <div className="p-4 text-[12px] text-center" style={{ color: "#534344" }}>
+                    No products available. Create products first.
+                  </div>
+                ) : (() => {
+                  const filtered = allProducts.filter((p) =>
+                    p.title.toLowerCase().includes(productSearch.toLowerCase())
+                  );
+                  if (filtered.length === 0) {
+                    return (
+                      <div className="p-4 text-[12px] text-center" style={{ color: "#534344" }}>
+                        No products match &quot;{productSearch}&quot;
+                      </div>
+                    );
+                  }
+                  return filtered.map((product) => {
+                    const isSelected = selectedProductIds.includes(product.id);
+                    return (
+                      <label
+                        key={product.id}
+                        className="flex items-center gap-3 px-4 py-3 cursor-pointer transition-colors hover:bg-white/[0.02] border-b last:border-b-0"
+                        style={{ borderColor: "#534344" }}
+                      >
+                        <input
+                          type="checkbox"
+                          checked={isSelected}
+                          onChange={() => toggleProduct(product.id)}
+                          className="sr-only"
+                        />
+                        <div
+                          className="w-[18px] h-[18px] border rounded flex items-center justify-center transition-all shrink-0"
+                          style={{
+                            borderColor: isSelected ? "#C6A972" : "#534344",
+                            background: isSelected ? "#C6A972" : "transparent",
+                          }}
+                        >
+                          {isSelected && (
+                            <svg width="10" height="8" viewBox="0 0 10 8" fill="none">
+                              <path d="M1 4L3.5 6.5L9 1" stroke="#0B0B0C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                            </svg>
+                          )}
+                        </div>
+                        <div className="w-8 h-8 rounded overflow-hidden shrink-0" style={{ background: "#222018" }}>
+                          {product.images?.[0] ? (
+                            <Image src={product.images[0]} alt="" width={32} height={32} className="object-cover w-full h-full" />
+                          ) : null}
+                        </div>
+                        <span className="text-[13px] truncate" style={{ fontFamily: "var(--font-inter)", color: "#e8e2d6" }}>
+                          {product.title}
+                        </span>
+                      </label>
+                    );
+                  });
+                })()}
+              </div>
+            </>
           )}
         </div>
 
