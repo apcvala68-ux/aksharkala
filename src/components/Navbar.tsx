@@ -93,19 +93,21 @@ export default function Navbar() {
       {mobileOpen && (
         <div className="md:hidden border-t border-secondary/15 px-6 py-5 rounded-b-2xl bg-surface/95 backdrop-blur-md">
           <ul className="flex flex-col gap-4">
-            {navLinks.map((link) => (
-              <li key={link.label}>
-                <Link
-                  href={link.href}
-                  className="relative text-[12px] font-semibold tracking-[0.15em] uppercase text-on-surface-variant active:text-secondary transition-colors duration-300 block py-1 group"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                  onClick={() => setMobileOpen(false)}
-                >
-                  {link.label}
-                  <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full group-active:w-full"></span>
-                </Link>
-              </li>
-            ))}
+            {navLinks
+              .filter((link) => link.label !== "Sarees" && link.label !== "Indo-Western")
+              .map((link) => (
+                <li key={link.label}>
+                  <Link
+                    href={link.href}
+                    className="relative text-[12px] font-semibold tracking-[0.15em] uppercase text-on-surface-variant active:text-secondary transition-colors duration-300 block py-1 group"
+                    style={{ fontFamily: "var(--font-inter)" }}
+                    onClick={() => setMobileOpen(false)}
+                  >
+                    {link.label}
+                    <span className="absolute bottom-0 left-0 w-0 h-[1px] bg-secondary transition-all duration-300 group-hover:w-full group-active:w-full"></span>
+                  </Link>
+                </li>
+              ))}
           </ul>
         </div>
       )}
