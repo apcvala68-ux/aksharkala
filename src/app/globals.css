@@ -71,6 +71,28 @@
 
 html {
   scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: #C6A972 #0B0B0C;
+}
+
+/* Custom Webkit Scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #0B0B0C;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #C6A972;
+  border-radius: 3px;
+  border: 1px solid #0B0B0C;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ffdea3;
 }
 
 body {

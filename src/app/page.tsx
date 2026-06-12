@@ -105,7 +105,7 @@ export default function HomePage() {
           ═══════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-8 md:justify-center md:pt-24 md:pb-12 overflow-hidden"
+        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-8 md:pb-20 overflow-hidden"
       >
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
@@ -168,17 +168,17 @@ export default function HomePage() {
           </ScrollReveal>
 
           <ScrollReveal delay={1000}>
-            <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-6 md:pt-8 w-full max-w-[420px] sm:max-w-none mx-auto">
+            <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-6 md:pt-8 w-full max-w-[420px] md:max-w-[500px] mx-auto">
               <Link
                 href="/inquiry"
-                className="btn-primary flex-1 sm:flex-initial px-3 py-3 md:px-8 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
+                className="btn-primary flex-1 px-3 py-3 md:px-6 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Request{" "}<span className="hidden sm:inline">Wholesale </span>Catalog
+                {"Request "}<span className="hidden sm:inline">Wholesale </span>{"Catalog"}
               </Link>
               <Link
                 href="/heritage"
-                className="btn-secondary flex-1 sm:flex-initial px-3 py-3 md:px-8 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
+                className="btn-secondary flex-1 px-3 py-3 md:px-6 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Our Heritage
