@@ -104,7 +104,7 @@ export default function CollectionDetailPage() {
   return (
     <>
       {/* Hero Banner */}
-      <header className="relative w-full h-[50vh] md:h-[60vh] overflow-hidden">
+      <header className="relative w-full h-[35vh] md:h-[40vh] overflow-hidden">
         {collection.cover_image ? (
           <Image
             src={collection.cover_image}
