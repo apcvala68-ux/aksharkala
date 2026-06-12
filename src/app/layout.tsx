@@ -30,9 +30,27 @@ const inter = Inter({
 });
 
 export const metadata: Metadata = {
-  title: "Aksharkala - Industrial Luxury Textile Powerhouse",
+  title: {
+    default: "Aksharkala - Luxury Indian Textiles & Handcrafted Sarees",
+    template: "%s | Aksharkala",
+  },
   description:
-    "Where heavy industry meets haute couture. Engineering perfection in every thread for global luxury houses.",
+    "Handcrafted Banarasi silk sarees, Kanjivaram, and luxury Indian textiles. B2B wholesale for global luxury houses. Pure silk, zari, and zardozi artistry from Varanasi.",
+  keywords: [
+    "Banarasi silk saree",
+    "Kanjivaram saree",
+    "Indian luxury textiles",
+    "handwoven saree",
+    "zari work",
+    "B2B textile wholesale",
+    "Indian bridal saree",
+  ],
+  openGraph: {
+    title: "Aksharkala - Luxury Indian Textiles",
+    description: "Handcrafted Banarasi silk sarees and luxury Indian textiles for global luxury houses.",
+    type: "website",
+    locale: "en_US",
+  },
 };
 
 export default function RootLayout({

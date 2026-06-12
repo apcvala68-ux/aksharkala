@@ -18,8 +18,14 @@ interface Product {
   created_at: string;
 }
 
+interface Category {
+  id: number;
+  name: string;
+}
+
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
+  const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -49,9 +55,19 @@ export default function ProductsPage() {
     setLoading(false);
   };
 
+  const fetchCategories = async () => {
+    const res = await fetch("/api/admin/categories?limit=100");
+    const data = await res.json();
+    setCategories(data.categories || []);
+  };
+
   useEffect(() => {
     fetchProducts();
   }, [page, search, category, sort, sortOrder]);
+
+  useEffect(() => {
+    fetchCategories();
+  }, []);
 
   const handleDelete = async () => {
     if (!deleteId) return;
@@ -174,13 +190,9 @@ export default function ProductsPage() {
           style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
         >
           <option value="">All Categories</option>
-          <option value="Banarasi">Banarasi</option>
-          <option value="Heritage">Heritage</option>
-          <option value="Luxury">Luxury</option>
-          <option value="Printed">Printed</option>
-          <option value="Contemporary">Contemporary</option>
-          <option value="Antique">Antique</option>
-          <option value="Indo-Western">Indo-Western</option>
+          {categories.map((cat) => (
+            <option key={cat.id} value={cat.name}>{cat.name}</option>
+          ))}
         </select>
       </div>
 
@@ -210,6 +222,7 @@ export default function ProductsPage() {
         onClose={() => { setShowForm(false); setEditProduct(null); }}
         onSave={handleSave}
         product={editProduct}
+        categories={categories}
       />
 
       {/* Delete Confirmation */}
@@ -230,11 +243,13 @@ function ProductFormModal({
   onClose,
   onSave,
   product,
+  categories,
 }: {
   open: boolean;
   onClose: () => void;
   onSave: (data: Partial<Product>) => void;
   product: Product | null;
+  categories: Category[];
 }) {
   const [form, setForm] = useState({
     title: "",
@@ -295,13 +310,9 @@ function ProductFormModal({
               style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
             >
               <option value="">Select category</option>
-              <option value="Banarasi">Banarasi</option>
-              <option value="Heritage">Heritage</option>
-              <option value="Luxury">Luxury</option>
-              <option value="Printed">Printed</option>
-              <option value="Contemporary">Contemporary</option>
-              <option value="Antique">Antique</option>
-              <option value="Indo-Western">Indo-Western</option>
+              {categories.map((cat) => (
+                <option key={cat.id} value={cat.name}>{cat.name}</option>
+              ))}
             </select>
           </div>
           <InputField label="MOQ" value={form.moq} onChange={(v) => setForm({ ...form, moq: v })} placeholder="e.g. 10 pieces" />

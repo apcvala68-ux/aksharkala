@@ -8,6 +8,8 @@ import { useAuth } from "./AdminAuthProvider";
 const breadcrumbMap: Record<string, string> = {
   admin: "Dashboard",
   products: "Products",
+  categories: "Categories",
+  collections: "Collections",
   inquiries: "Inquiries",
   orders: "Orders",
   analytics: "Analytics",
