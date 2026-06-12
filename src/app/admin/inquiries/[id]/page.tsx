@@ -3,7 +3,8 @@
 import { useState, useEffect, use } from "react";
 import { useRouter } from "next/navigation";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { ArrowLeft, Mail, Phone, Building2, User, Calendar, ExternalLink } from "lucide-react";
+import { useAuth } from "@/components/admin/AdminAuthProvider";
+import { ArrowLeft, Mail, Phone, Building2, User, Calendar, ExternalLink, ShoppingCart } from "lucide-react";
 import Link from "next/link";
 
 interface Inquiry {
@@ -24,9 +25,13 @@ const statuses = ["pending", "read", "replied", "closed"];
 export default function InquiryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
   const router = useRouter();
+  const { adminUser } = useAuth();
   const [inquiry, setInquiry] = useState<Inquiry | null>(null);
   const [loading, setLoading] = useState(true);
   const [updating, setUpdating] = useState(false);
+  const [converting, setConverting] = useState(false);
+
+  const isViewer = adminUser?.role === "viewer";
 
   useEffect(() => {
     async function fetchInquiry() {
@@ -47,6 +52,32 @@ export default function InquiryDetailPage({ params }: { params: Promise<{ id: st
     });
     setInquiry((prev) => (prev ? { ...prev, status: newStatus } : null));
     setUpdating(false);
+  };
+
+  const convertToOrder = async () => {
+    if (!inquiry) return;
+    setConverting(true);
+    try {
+      const res = await fetch("/api/admin/orders", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          company_name: inquiry.company_name,
+          contact_name: inquiry.contact_name,
+          email: inquiry.email,
+          phone: inquiry.phone,
+          product_id: inquiry.product_id || null,
+          notes: `Converted from inquiry #${inquiry.id}. ${inquiry.message || ""}`,
+        }),
+      });
+      if (res.ok) {
+        const data = await res.json();
+        await updateStatus("replied");
+        router.push(`/admin/orders/${data.order.id}`);
+      }
+    } finally {
+      setConverting(false);
+    }
   };
 
   if (loading) {
@@ -167,35 +198,37 @@ export default function InquiryDetailPage({ params }: { params: Promise<{ id: st
       )}
 
       {/* Status Actions */}
-      <div
-        className="rounded-xl border p-5"
-        style={{ background: "#15130d", borderColor: "#534344" }}
-      >
-        <h2
-          className="text-[14px] font-semibold mb-4"
-          style={{ fontFamily: "var(--font-montserrat)", color: "#e8e2d6" }}
+      {!isViewer && (
+        <div
+          className="rounded-xl border p-5"
+          style={{ background: "#15130d", borderColor: "#534344" }}
         >
-          Change Status
-        </h2>
-        <div className="flex flex-wrap gap-2">
-          {statuses.map((s) => (
-            <button
-              key={s}
-              onClick={() => updateStatus(s)}
-              disabled={updating || inquiry.status === s}
-              className="px-4 py-2 rounded-lg text-[12px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
-              style={{
-                fontFamily: "var(--font-inter)",
-                background: inquiry.status === s ? "rgba(198,169,114,0.15)" : "transparent",
-                color: inquiry.status === s ? "#C6A972" : "#d9c1c2",
-                border: `1px solid ${inquiry.status === s ? "rgba(198,169,114,0.3)" : "#534344"}`,
-              }}
-            >
-              {s.charAt(0).toUpperCase() + s.slice(1)}
-            </button>
-          ))}
+          <h2
+            className="text-[14px] font-semibold mb-4"
+            style={{ fontFamily: "var(--font-montserrat)", color: "#e8e2d6" }}
+          >
+            Change Status
+          </h2>
+          <div className="flex flex-wrap gap-2">
+            {statuses.map((s) => (
+              <button
+                key={s}
+                onClick={() => updateStatus(s)}
+                disabled={updating || inquiry.status === s}
+                className="px-4 py-2 rounded-lg text-[12px] font-medium transition-colors cursor-pointer disabled:opacity-40 disabled:cursor-not-allowed"
+                style={{
+                  fontFamily: "var(--font-inter)",
+                  background: inquiry.status === s ? "rgba(198,169,114,0.15)" : "transparent",
+                  color: inquiry.status === s ? "#C6A972" : "#d9c1c2",
+                  border: `1px solid ${inquiry.status === s ? "rgba(198,169,114,0.3)" : "#534344"}`,
+                }}
+              >
+                {s.charAt(0).toUpperCase() + s.slice(1)}
+              </button>
+            ))}
+          </div>
         </div>
-      </div>
+      )}
 
       {/* Quick Actions */}
       <div className="flex flex-col sm:flex-row gap-3">
@@ -206,14 +239,26 @@ export default function InquiryDetailPage({ params }: { params: Promise<{ id: st
         >
           <Mail size={16} /> Reply via Email
         </a>
-        <button
-          onClick={() => updateStatus("replied")}
-          disabled={updating}
-          className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
-          style={{ fontFamily: "var(--font-inter)", border: "1px solid #534344", color: "#d9c1c2" }}
-        >
-          Mark as Replied
-        </button>
+        {!isViewer && (
+          <>
+            <button
+              onClick={() => updateStatus("replied")}
+              disabled={updating}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-[13px] font-medium transition-colors cursor-pointer disabled:opacity-50"
+              style={{ fontFamily: "var(--font-inter)", border: "1px solid #534344", color: "#d9c1c2" }}
+            >
+              Mark as Replied
+            </button>
+            <button
+              onClick={convertToOrder}
+              disabled={converting}
+              className="flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer disabled:opacity-50"
+              style={{ fontFamily: "var(--font-inter)", background: "#22C55E", color: "#0B0B0C" }}
+            >
+              <ShoppingCart size={16} /> {converting ? "Converting..." : "Convert to Order"}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );

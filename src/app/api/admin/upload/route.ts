@@ -1,6 +1,12 @@
 import { NextRequest, NextResponse } from "next/server";
 import { createClient } from "@/utils/supabase/server";
 
+const ALLOWED_TYPES = [
+  "image/jpeg", "image/png", "image/webp", "image/gif",
+  "video/mp4", "video/webm", "video/quicktime",
+];
+const MAX_SIZE_MB = 50;
+
 export async function POST(request: NextRequest) {
   const supabase = await createClient();
   const { data: { user } } = await supabase.auth.getUser();
@@ -12,6 +18,21 @@ export async function POST(request: NextRequest) {
 
   if (!file) {
     return NextResponse.json({ error: "No file provided" }, { status: 400 });
+  }
+
+  if (!ALLOWED_TYPES.includes(file.type)) {
+    return NextResponse.json(
+      { error: `Invalid file type: ${file.type}. Allowed: images (JPEG, PNG, WebP, GIF) and videos (MP4, WebM, MOV)` },
+      { status: 400 }
+    );
+  }
+
+  const sizeMB = file.size / (1024 * 1024);
+  if (sizeMB > MAX_SIZE_MB) {
+    return NextResponse.json(
+      { error: `File too large: ${sizeMB.toFixed(1)}MB. Maximum is ${MAX_SIZE_MB}MB` },
+      { status: 400 }
+    );
   }
 
   const fileExt = file.name.split(".").pop();

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useAuth } from "@/components/admin/AdminAuthProvider";
-import { User, Shield, Key, Activity } from "lucide-react";
+import { User, Activity } from "lucide-react";
 
 interface ActivityLog {
   id: number;
@@ -35,13 +35,26 @@ export default function SettingsPage() {
   }, [activeTab]);
 
   const handleSaveProfile = async () => {
+    if (!name.trim()) return;
     setSaving(true);
     setMessage("");
-    // In a real app, this would call an API to update the profile
-    await new Promise((r) => setTimeout(r, 500));
-    setMessage("Profile updated successfully");
+    try {
+      const res = await fetch("/api/admin/profile", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ full_name: name.trim() }),
+      });
+      if (res.ok) {
+        setMessage("Profile updated successfully");
+        refreshAdmin();
+      } else {
+        const data = await res.json();
+        setMessage(data.error || "Failed to update profile");
+      }
+    } catch {
+      setMessage("Failed to update profile");
+    }
     setSaving(false);
-    refreshAdmin();
   };
 
   const tabs = [
@@ -125,14 +138,20 @@ export default function SettingsPage() {
               </div>
 
               {message && (
-                <p className="text-[13px] px-4 py-2 rounded-lg" style={{ background: "rgba(34,197,94,0.1)", color: "#22C55E" }}>
+                <p
+                  className="text-[13px] px-4 py-2 rounded-lg"
+                  style={{
+                    background: message.includes("success") ? "rgba(34,197,94,0.1)" : "rgba(239,68,68,0.1)",
+                    color: message.includes("success") ? "#22C55E" : "#EF4444",
+                  }}
+                >
                   {message}
                 </p>
               )}
 
               <button
                 onClick={handleSaveProfile}
-                disabled={saving}
+                disabled={saving || !name.trim()}
                 className="px-5 py-2.5 rounded-lg text-[13px] font-semibold transition-colors cursor-pointer disabled:opacity-50"
                 style={{ fontFamily: "var(--font-inter)", background: "#C6A972", color: "#0B0B0C" }}
               >

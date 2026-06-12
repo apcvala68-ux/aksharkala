@@ -2,37 +2,55 @@
 
 import { useState, useEffect } from "react";
 import { StatCard } from "@/components/admin/StatCard";
-import { MessageSquare, ShoppingCart, IndianRupee, TrendingUp, Package } from "lucide-react";
+import { MessageSquare, ShoppingCart, TrendingUp, Package } from "lucide-react";
 import {
   LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer,
-  BarChart, Bar, PieChart, Pie, Cell, Legend,
+  PieChart, Pie, Cell, Legend,
 } from "recharts";
 
-interface AnalyticsData {
-  inquiries: { total: number; pending: number; replied: number; closed: number };
-  orders: { total: number; revenue: number };
-  products: { total: number };
-  recentInquiries: Array<{ created_at: string; status: string }>;
+interface Summary {
+  totalInquiries: number;
+  totalOrders: number;
+  totalProducts: number;
+  conversionRate: number;
+}
+
+interface InquiriesData {
+  total: number;
+  pending: number;
+  replied: number;
+  closed: number;
+  recent: Array<{ created_at: string; status: string }>;
+}
+
+interface OrdersData {
+  total: number;
+  quoted: number;
+  confirmed: number;
+  processing: number;
+  shipped: number;
+  delivered: number;
 }
 
 const COLORS = ["#C6A972", "#22C55E", "#3B82F6", "#EAB308", "#EF4444", "#8B5CF6"];
 
 export default function AnalyticsPage() {
-  const [data, setData] = useState<AnalyticsData | null>(null);
+  const [summary, setSummary] = useState<Summary | null>(null);
+  const [inquiries, setInquiries] = useState<InquiriesData | null>(null);
+  const [orders, setOrders] = useState<OrdersData | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     async function fetchAnalytics() {
       try {
-        const [inquiriesRes, ordersRes, productsRes] = await Promise.all([
+        const [summaryRes, inquiriesRes, ordersRes] = await Promise.all([
+          fetch("/api/admin/analytics?type=summary"),
           fetch("/api/admin/analytics?type=inquiries"),
           fetch("/api/admin/analytics?type=orders"),
-          fetch("/api/admin/analytics?type=products"),
         ]);
-        const inquiries = await inquiriesRes.json();
-        const orders = await ordersRes.json();
-        const products = await productsRes.json();
-        setData({ inquiries, orders, products, recentInquiries: inquiries.recent || [] });
+        setSummary(await summaryRes.json());
+        setInquiries(await inquiriesRes.json());
+        setOrders(await ordersRes.json());
       } catch (error) {
         console.error("Failed to fetch analytics:", error);
       } finally {
@@ -50,14 +68,13 @@ export default function AnalyticsPage() {
     );
   }
 
-  if (!data) return null;
+  if (!summary || !inquiries || !orders) return null;
 
-  // Generate mock trend data from recent inquiries
   const last7Days = Array.from({ length: 7 }, (_, i) => {
     const date = new Date();
     date.setDate(date.getDate() - (6 - i));
     const dayStr = date.toLocaleDateString("en-US", { weekday: "short" });
-    const count = data.recentInquiries.filter((inq) => {
+    const count = (inquiries.recent || []).filter((inq) => {
       const d = new Date(inq.created_at);
       return d.toDateString() === date.toDateString();
     }).length;
@@ -65,19 +82,24 @@ export default function AnalyticsPage() {
   });
 
   const statusData = [
-    { name: "Pending", value: data.inquiries.pending || 0 },
-    { name: "Replied", value: data.inquiries.replied || 0 },
-    { name: "Closed", value: data.inquiries.closed || 0 },
-    { name: "Other", value: Math.max(0, (data.inquiries.total || 0) - (data.inquiries.pending || 0) - (data.inquiries.replied || 0) - (data.inquiries.closed || 0)) },
+    { name: "Pending", value: inquiries.pending || 0 },
+    { name: "Replied", value: inquiries.replied || 0 },
+    { name: "Closed", value: inquiries.closed || 0 },
+    { name: "Other", value: Math.max(0, (inquiries.total || 0) - (inquiries.pending || 0) - (inquiries.replied || 0) - (inquiries.closed || 0)) },
   ].filter((d) => d.value > 0);
 
-  const revenueData = [
-    { month: "Jan", revenue: 0 },
-    { month: "Feb", revenue: 0 },
-    { month: "Mar", revenue: 0 },
-    { month: "Apr", revenue: 0 },
-    { month: "May", revenue: 0 },
-    { month: "Jun", revenue: data.orders.revenue || 0 },
+  const ordersByStatus = [
+    { name: "Quoted", value: orders.quoted || 0 },
+    { name: "Confirmed", value: orders.confirmed || 0 },
+    { name: "Processing", value: orders.processing || 0 },
+    { name: "Shipped", value: orders.shipped || 0 },
+    { name: "Delivered", value: orders.delivered || 0 },
+  ].filter((d) => d.value > 0);
+
+  const funnelSteps = [
+    { label: "Total Inquiries", value: summary.totalInquiries, width: "100%" },
+    { label: "Replied", value: inquiries.replied || 0, width: "70%" },
+    { label: "Orders Created", value: summary.totalOrders, width: "40%" },
   ];
 
   return (
@@ -88,10 +110,10 @@ export default function AnalyticsPage() {
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
-        <StatCard title="Total Inquiries" value={data.inquiries.total || 0} icon={MessageSquare} />
-        <StatCard title="Total Orders" value={data.orders.total || 0} icon={ShoppingCart} />
-        <StatCard title="Revenue" value={`₹${(data.orders.revenue || 0).toLocaleString()}`} icon={IndianRupee} />
-        <StatCard title="Products" value={data.products.total || 0} icon={Package} />
+        <StatCard title="Total Inquiries" value={summary.totalInquiries} icon={MessageSquare} />
+        <StatCard title="Total Orders" value={summary.totalOrders} icon={ShoppingCart} />
+        <StatCard title="Conversion Rate" value={`${summary.conversionRate}%`} icon={TrendingUp} />
+        <StatCard title="Products" value={summary.totalProducts} icon={Package} />
       </div>
 
       {/* Charts Grid */}
@@ -112,7 +134,7 @@ export default function AnalyticsPage() {
           </ResponsiveContainer>
         </ChartCard>
 
-        {/* Status Distribution */}
+        {/* Inquiry Status Distribution */}
         <ChartCard title="Inquiry Status">
           <ResponsiveContainer width="100%" height={250}>
             <PieChart>
@@ -132,36 +154,40 @@ export default function AnalyticsPage() {
               <Tooltip
                 contentStyle={{ background: "#15130d", border: "1px solid #534344", borderRadius: "8px", fontSize: "12px" }}
               />
-              <Legend
-                wrapperStyle={{ fontSize: "11px", fontFamily: "var(--font-inter)" }}
-              />
+              <Legend wrapperStyle={{ fontSize: "11px", fontFamily: "var(--font-inter)" }} />
             </PieChart>
           </ResponsiveContainer>
         </ChartCard>
 
-        {/* Revenue Trend */}
-        <ChartCard title="Revenue by Month">
+        {/* Orders by Status */}
+        <ChartCard title="Orders by Status">
           <ResponsiveContainer width="100%" height={250}>
-            <BarChart data={revenueData}>
-              <CartesianGrid strokeDasharray="3 3" stroke="#534344" />
-              <XAxis dataKey="month" stroke="#d9c1c2" fontSize={11} />
-              <YAxis stroke="#d9c1c2" fontSize={11} />
+            <PieChart>
+              <Pie
+                data={ordersByStatus}
+                cx="50%"
+                cy="50%"
+                innerRadius={60}
+                outerRadius={90}
+                paddingAngle={4}
+                dataKey="value"
+              >
+                {ordersByStatus.map((_, index) => (
+                  <Cell key={`cell-${index}`} fill={COLORS[(index + 2) % COLORS.length]} />
+                ))}
+              </Pie>
               <Tooltip
                 contentStyle={{ background: "#15130d", border: "1px solid #534344", borderRadius: "8px", fontSize: "12px" }}
               />
-              <Bar dataKey="revenue" fill="#C6A972" radius={[4, 4, 0, 0]} />
-            </BarChart>
+              <Legend wrapperStyle={{ fontSize: "11px", fontFamily: "var(--font-inter)" }} />
+            </PieChart>
           </ResponsiveContainer>
         </ChartCard>
 
         {/* Conversion Funnel */}
         <ChartCard title="Conversion Funnel">
           <div className="flex flex-col items-center justify-center h-[250px] gap-3 px-4">
-            {[
-              { label: "Total Inquiries", value: data.inquiries.total || 0, width: "100%" },
-              { label: "Replied", value: data.inquiries.replied || 0, width: "70%" },
-              { label: "Orders", value: data.orders.total || 0, width: "40%" },
-            ].map((step, i) => (
+            {funnelSteps.map((step, i) => (
               <div key={step.label} className="text-center" style={{ width: step.width }}>
                 <div
                   className="h-10 rounded-lg flex items-center justify-center text-[13px] font-semibold"

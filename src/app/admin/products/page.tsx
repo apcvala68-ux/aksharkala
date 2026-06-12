@@ -5,6 +5,7 @@ import { DataTable, Column } from "@/components/admin/DataTable";
 import { Modal } from "@/components/admin/Modal";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { EmptyState } from "@/components/admin/EmptyState";
+import { useAuth } from "@/components/admin/AdminAuthProvider";
 import { Package, Plus, Trash2, Pencil } from "lucide-react";
 import Image from "next/image";
 
@@ -24,6 +25,8 @@ interface Category {
 }
 
 export default function ProductsPage() {
+  const { adminUser } = useAuth();
+  const isViewer = adminUser?.role === "viewer";
   const [products, setProducts] = useState<Product[]>([]);
   const [categories, setCategories] = useState<Category[]>([]);
   const [loading, setLoading] = useState(true);
@@ -130,29 +133,31 @@ export default function ProductsPage() {
       sortable: true,
       render: (item) => new Date(item.created_at).toLocaleDateString(),
     },
-    {
-      key: "actions",
-      label: "",
-      className: "w-[80px]",
-      render: (item) => (
-        <div className="flex items-center gap-1">
-          <button
-            onClick={() => { setEditProduct(item); setShowForm(true); }}
-            className="p-1.5 rounded-lg transition-colors cursor-pointer hover:bg-white/5"
-            style={{ color: "#d9c1c2" }}
-          >
-            <Pencil size={14} />
-          </button>
-          <button
-            onClick={() => setDeleteId(item.id)}
-            className="p-1.5 rounded-lg transition-colors cursor-pointer hover:bg-white/5"
-            style={{ color: "#EF4444" }}
-          >
-            <Trash2 size={14} />
-          </button>
-        </div>
-      ),
-    },
+    ...(!isViewer
+      ? [{
+          key: "actions",
+          label: "",
+          className: "w-[80px]",
+          render: (item: Product) => (
+            <div className="flex items-center gap-1">
+              <button
+                onClick={() => { setEditProduct(item); setShowForm(true); }}
+                className="p-1.5 rounded-lg transition-colors cursor-pointer hover:bg-white/5"
+                style={{ color: "#d9c1c2" }}
+              >
+                <Pencil size={14} />
+              </button>
+              <button
+                onClick={() => setDeleteId(item.id)}
+                className="p-1.5 rounded-lg transition-colors cursor-pointer hover:bg-white/5"
+                style={{ color: "#EF4444" }}
+              >
+                <Trash2 size={14} />
+              </button>
+            </div>
+          ),
+        }]
+      : []),
   ];
 
   return (
@@ -164,13 +169,15 @@ export default function ProductsPage() {
         >
           Products
         </h1>
-        <button
-          onClick={() => { setEditProduct(null); setShowForm(true); }}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] tracking-[0.1em] uppercase font-semibold transition-colors cursor-pointer"
-          style={{ fontFamily: "var(--font-inter)", background: "#C6A972", color: "#0B0B0C" }}
-        >
-          <Plus size={16} /> Add Product
-        </button>
+        {!isViewer && (
+          <button
+            onClick={() => { setEditProduct(null); setShowForm(true); }}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] tracking-[0.1em] uppercase font-semibold transition-colors cursor-pointer"
+            style={{ fontFamily: "var(--font-inter)", background: "#C6A972", color: "#0B0B0C" }}
+          >
+            <Plus size={16} /> Add Product
+          </button>
+        )}
       </div>
 
       {/* Filters */}

@@ -6,7 +6,8 @@ import { DataTable, Column } from "@/components/admin/DataTable";
 import { StatusBadge } from "@/components/admin/StatusBadge";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { Modal } from "@/components/admin/Modal";
-import { ShoppingCart, Plus, Eye } from "lucide-react";
+import { useAuth } from "@/components/admin/AdminAuthProvider";
+import { ShoppingCart, Plus, Eye, Search, Download } from "lucide-react";
 
 interface Order {
   id: number;
@@ -20,17 +21,35 @@ interface Order {
   products?: { title: string };
 }
 
+interface ProductOption {
+  id: number;
+  title: string;
+  price: string;
+}
+
 export default function OrdersPage() {
+  const { adminUser } = useAuth();
+  const isViewer = adminUser?.role === "viewer";
   const [orders, setOrders] = useState<Order[]>([]);
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
   const [status, setStatus] = useState("");
+  const [search, setSearch] = useState("");
+  const [sort, setSort] = useState("created_at");
+  const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [showCreate, setShowCreate] = useState(false);
 
   const fetchOrders = async () => {
     setLoading(true);
-    const params = new URLSearchParams({ page: String(page), limit: "10", status });
+    const params = new URLSearchParams({
+      page: String(page),
+      limit: "10",
+      status,
+      search,
+      sort,
+      order: sortOrder,
+    });
     const res = await fetch(`/api/admin/orders?${params}`);
     const data = await res.json();
     setOrders(data.orders || []);
@@ -40,7 +59,24 @@ export default function OrdersPage() {
 
   useEffect(() => {
     fetchOrders();
-  }, [page, status]);
+  }, [page, status, search, sort, sortOrder]);
+
+  const handleExportCSV = () => {
+    const headers = ["ID", "Company", "Contact", "Email", "Product", "Value", "Status", "Date"];
+    const rows = orders.map((o) => [
+      o.id, o.company_name, o.contact_name, o.email,
+      o.products?.title || "", o.total_value || "", o.status,
+      new Date(o.created_at).toLocaleDateString(),
+    ]);
+    const csv = [headers, ...rows].map((r) => r.map((c) => `"${String(c).replace(/"/g, '""')}"`).join(",")).join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `orders-${new Date().toISOString().slice(0, 10)}.csv`;
+    a.click();
+    URL.revokeObjectURL(url);
+  };
 
   const columns: Column<Order>[] = [
     {
@@ -112,13 +148,24 @@ export default function OrdersPage() {
         >
           Orders
         </h1>
-        <button
-          onClick={() => setShowCreate(true)}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] tracking-[0.1em] uppercase font-semibold transition-colors cursor-pointer"
-          style={{ fontFamily: "var(--font-inter)", background: "#C6A972", color: "#0B0B0C" }}
-        >
-          <Plus size={16} /> New Order
-        </button>
+        <div className="flex items-center gap-2">
+          <button
+            onClick={handleExportCSV}
+            className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] tracking-[0.1em] uppercase font-semibold transition-colors cursor-pointer"
+            style={{ fontFamily: "var(--font-inter)", border: "1px solid #534344", color: "#d9c1c2" }}
+          >
+            <Download size={14} /> CSV
+          </button>
+          {!isViewer && (
+            <button
+              onClick={() => setShowCreate(true)}
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg text-[12px] tracking-[0.1em] uppercase font-semibold transition-colors cursor-pointer"
+              style={{ fontFamily: "var(--font-inter)", background: "#C6A972", color: "#0B0B0C" }}
+            >
+              <Plus size={16} /> New Order
+            </button>
+          )}
+        </div>
       </div>
 
       {/* Status Tabs */}
@@ -142,6 +189,19 @@ export default function OrdersPage() {
         ))}
       </div>
 
+      {/* Search */}
+      <div className="relative">
+        <Search size={16} className="absolute left-4 top-1/2 -translate-y-1/2" style={{ color: "#534344" }} />
+        <input
+          type="text"
+          placeholder="Search by company, contact, or email..."
+          value={search}
+          onChange={(e) => { setSearch(e.target.value); setPage(1); }}
+          className="w-full pl-11 pr-4 py-2.5 rounded-lg text-[13px] outline-none"
+          style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+        />
+      </div>
+
       {orders.length === 0 && !loading ? (
         <EmptyState
           icon={ShoppingCart}
@@ -156,6 +216,7 @@ export default function OrdersPage() {
           page={page}
           totalPages={totalPages}
           onPageChange={setPage}
+          onSort={(key, dir) => { setSort(key); setSortOrder(dir); }}
         />
       )}
 
@@ -167,9 +228,19 @@ export default function OrdersPage() {
 
 function CreateOrderModal({ open, onClose, onCreated }: { open: boolean; onClose: () => void; onCreated: () => void }) {
   const [form, setForm] = useState({
-    company_name: "", contact_name: "", email: "", phone: "", quantity: "", notes: "",
+    company_name: "", contact_name: "", email: "", phone: "", product_id: "",
+    quantity: "", total_value: "", currency: "INR", notes: "",
   });
+  const [products, setProducts] = useState<ProductOption[]>([]);
   const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    if (open) {
+      fetch("/api/admin/products?limit=100")
+        .then((r) => r.json())
+        .then((data) => setProducts(data.products || []));
+    }
+  }, [open]);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -177,20 +248,62 @@ function CreateOrderModal({ open, onClose, onCreated }: { open: boolean; onClose
     await fetch("/api/admin/orders", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ ...form, quantity: form.quantity ? parseInt(form.quantity) : null }),
+      body: JSON.stringify({
+        ...form,
+        product_id: form.product_id ? parseInt(form.product_id) : null,
+        quantity: form.quantity ? parseInt(form.quantity) : null,
+        total_value: form.total_value ? parseFloat(form.total_value) : null,
+      }),
     });
     setSaving(false);
     onCreated();
   };
 
   return (
-    <Modal open={open} onClose={onClose} title="Create Order">
+    <Modal open={open} onClose={onClose} title="Create Order" size="lg">
       <form onSubmit={handleSubmit} className="space-y-4">
-        <Input label="Company *" value={form.company_name} onChange={(v) => setForm({ ...form, company_name: v })} />
-        <Input label="Contact Name *" value={form.contact_name} onChange={(v) => setForm({ ...form, contact_name: v })} />
-        <Input label="Email *" value={form.email} onChange={(v) => setForm({ ...form, email: v })} type="email" />
-        <Input label="Phone" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
-        <Input label="Quantity" value={form.quantity} onChange={(v) => setForm({ ...form, quantity: v })} type="number" />
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <Input label="Company *" value={form.company_name} onChange={(v) => setForm({ ...form, company_name: v })} />
+          <Input label="Contact Name *" value={form.contact_name} onChange={(v) => setForm({ ...form, contact_name: v })} />
+          <Input label="Email *" value={form.email} onChange={(v) => setForm({ ...form, email: v })} type="email" />
+          <Input label="Phone" value={form.phone} onChange={(v) => setForm({ ...form, phone: v })} />
+        </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label className="block text-[11px] tracking-[0.1em] uppercase mb-2" style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}>
+              Product
+            </label>
+            <select
+              value={form.product_id}
+              onChange={(e) => setForm({ ...form, product_id: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none cursor-pointer"
+              style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+            >
+              <option value="">No product</option>
+              {products.map((p) => (
+                <option key={p.id} value={p.id}>{p.title}</option>
+              ))}
+            </select>
+          </div>
+          <Input label="Quantity" value={form.quantity} onChange={(v) => setForm({ ...form, quantity: v })} type="number" />
+          <Input label="Total Value (₹)" value={form.total_value} onChange={(v) => setForm({ ...form, total_value: v })} type="number" />
+          <div>
+            <label className="block text-[11px] tracking-[0.1em] uppercase mb-2" style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}>
+              Currency
+            </label>
+            <select
+              value={form.currency}
+              onChange={(e) => setForm({ ...form, currency: e.target.value })}
+              className="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none cursor-pointer"
+              style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+            >
+              <option value="INR">INR (₹)</option>
+              <option value="USD">USD ($)</option>
+              <option value="EUR">EUR (€)</option>
+              <option value="GBP">GBP (£)</option>
+            </select>
+          </div>
+        </div>
         <div>
           <label className="block text-[11px] tracking-[0.1em] uppercase mb-2" style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}>
             Notes

@@ -2,7 +2,7 @@
 
 import { usePathname } from "next/navigation";
 import Link from "next/link";
-import { ChevronRight, Bell } from "lucide-react";
+import { ChevronRight } from "lucide-react";
 import { useAuth } from "./AdminAuthProvider";
 
 const breadcrumbMap: Record<string, string> = {
@@ -50,18 +50,6 @@ export function AdminTopbar() {
 
       {/* Right Side */}
       <div className="flex items-center gap-4">
-        {/* Notifications */}
-        <button
-          className="relative p-2 rounded-lg transition-colors cursor-pointer hover:bg-white/5"
-          style={{ color: "#d9c1c2" }}
-        >
-          <Bell size={18} />
-          <span
-            className="absolute top-1 right-1 w-2 h-2 rounded-full"
-            style={{ background: "#EF4444" }}
-          />
-        </button>
-
         {/* Admin Avatar */}
         <div className="flex items-center gap-3">
           <div

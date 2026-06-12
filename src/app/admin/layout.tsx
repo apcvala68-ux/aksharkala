@@ -3,6 +3,7 @@
 import { AdminAuthProvider, useAuth } from "@/components/admin/AdminAuthProvider";
 import { AdminSidebar } from "@/components/admin/AdminSidebar";
 import { AdminTopbar } from "@/components/admin/AdminTopbar";
+import { ToastProvider } from "@/components/admin/Toast";
 import { usePathname, useRouter } from "next/navigation";
 import { useEffect } from "react";
 
@@ -62,7 +63,9 @@ function AdminLayoutInner({ children }: { children: React.ReactNode }) {
 export default function AdminLayout({ children }: { children: React.ReactNode }) {
   return (
     <AdminAuthProvider>
-      <AdminLayoutInner>{children}</AdminLayoutInner>
+      <ToastProvider>
+        <AdminLayoutInner>{children}</AdminLayoutInner>
+      </ToastProvider>
     </AdminAuthProvider>
   );
 }

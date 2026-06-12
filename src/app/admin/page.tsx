@@ -4,13 +4,14 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { StatCard } from "@/components/admin/StatCard";
 import { StatusBadge } from "@/components/admin/StatusBadge";
-import { MessageSquare, ShoppingCart, IndianRupee, Package, Plus, ArrowRight } from "lucide-react";
+import { MessageSquare, ShoppingCart, TrendingUp, Package, Plus, ArrowRight } from "lucide-react";
 
 interface DashboardStats {
   totalInquiries: number;
   pendingInquiries: number;
   totalOrders: number;
   totalProducts: number;
+  conversionRate: number;
   recentInquiries: Array<{
     id: number;
     company_name: string;
@@ -27,6 +28,7 @@ export default function AdminDashboard() {
     pendingInquiries: 0,
     totalOrders: 0,
     totalProducts: 0,
+    conversionRate: 0,
     recentInquiries: [],
   });
   const [loading, setLoading] = useState(true);
@@ -44,11 +46,14 @@ export default function AdminDashboard() {
         const orders = await ordersRes.json();
         const products = await productsRes.json();
 
+        const totalInq = inquiries.total || 0;
+        const totalOrd = orders.total || 0;
         setStats({
-          totalInquiries: inquiries.total || 0,
+          totalInquiries: totalInq,
           pendingInquiries: inquiries.pending || 0,
-          totalOrders: orders.total || 0,
+          totalOrders: totalOrd,
           totalProducts: products.total || 0,
+          conversionRate: totalInq > 0 ? Math.round((totalOrd / totalInq) * 100) : 0,
           recentInquiries: inquiries.recent || [],
         });
       } catch (error) {
@@ -111,10 +116,10 @@ export default function AdminDashboard() {
           icon={Package}
         />
         <StatCard
-          title="Revenue (MTD)"
-          value="₹0"
-          icon={IndianRupee}
-          subtitle="No orders yet"
+          title="Conversion Rate"
+          value={`${stats.conversionRate}%`}
+          icon={TrendingUp}
+          subtitle="Inquiries to orders"
         />
       </div>
 
