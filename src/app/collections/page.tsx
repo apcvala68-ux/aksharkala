@@ -87,7 +87,7 @@ export default function CollectionsPage() {
                       src={col.cover_image}
                       alt={col.name}
                       fill
-                      className="object-cover transform scale-100 group-hover:scale-[1.03] transition-transform duration-[1200ms] ease-out"
+                      className="object-cover object-center transform scale-100 group-hover:scale-[1.03] transition-transform duration-[1200ms] ease-out"
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   ) : (
@@ -101,7 +101,7 @@ export default function CollectionsPage() {
 
                 {/* Info */}
                 <div className="p-6 md:p-8">
-                  <div className="flex items-start justify-between gap-4">
+                  <div className="flex items-center justify-between gap-4">
                     <div className="flex-1 min-w-0">
                       <h2
                         className="text-[20px] md:text-[24px] font-medium mb-2 text-on-surface group-hover:text-secondary transition-colors"
@@ -118,18 +118,38 @@ export default function CollectionsPage() {
                         </p>
                       )}
                     </div>
-                    <div className="flex flex-col items-end shrink-0">
+                    <div className="flex flex-col items-end shrink-0 gap-3">
                       <span
                         className="text-[11px] uppercase tracking-[0.15em] text-secondary/80 font-semibold"
                         style={{ fontFamily: "var(--font-inter)" }}
                       >
                         {col.product_count} {col.product_count === 1 ? "piece" : "pieces"}
                       </span>
+                      {/* Explore Button */}
                       <span
-                        className="mt-3 text-[11px] uppercase tracking-[0.15em] text-on-surface-variant/50 group-hover:text-secondary transition-colors font-semibold"
-                        style={{ fontFamily: "var(--font-inter)" }}
+                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.12em] font-semibold transition-all duration-300 group-hover:bg-secondary group-hover:text-[#0B0B0C] border"
+                        style={{
+                          fontFamily: "var(--font-inter)",
+                          color: "#C6A972",
+                          borderColor: "rgba(198,169,114,0.3)",
+                        }}
                       >
-                        Explore →
+                        Explore
+                        <svg
+                          width="12"
+                          height="12"
+                          viewBox="0 0 12 12"
+                          fill="none"
+                          className="transform group-hover:translate-x-0.5 transition-transform duration-300"
+                        >
+                          <path
+                            d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9"
+                            stroke="currentColor"
+                            strokeWidth="1.5"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
                       </span>
                     </div>
                   </div>
