@@ -94,7 +94,7 @@ export default function Navbar() {
         <div className="md:hidden border-t border-secondary/15 px-6 py-5 rounded-b-2xl bg-surface/95 backdrop-blur-md">
           <ul className="flex flex-col gap-4">
             {navLinks
-              .filter((link) => link.label !== "Sarees" && link.label !== "Indo-Western")
+              .filter((link) => link.label !== "Sarees" && link.label !== "Indo-Western" && link.label !== "Craftsmanship")
               .map((link) => (
                 <li key={link.label}>
                   <Link

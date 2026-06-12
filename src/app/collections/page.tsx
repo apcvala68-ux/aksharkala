@@ -129,21 +129,29 @@ export default function CollectionsPage() {
                 </div>
 
                 {/* Desktop: Info below image */}
-                <div className="hidden md:block p-6 md:p-8">
-                  <h2
-                    className="text-[20px] md:text-[24px] font-medium mb-2 text-on-surface group-hover:text-secondary transition-colors"
-                    style={{ fontFamily: "var(--font-playfair-display)" }}
-                  >
-                    {col.name}
-                  </h2>
-                  {col.description && (
-                    <p
-                      className="text-[13px] md:text-[14px] leading-relaxed text-on-surface-variant/70 line-clamp-2"
-                      style={{ fontFamily: "var(--font-inter)" }}
+                <div className="hidden md:flex items-center justify-between p-6 md:p-8">
+                  <div className="flex-1 min-w-0">
+                    <h2
+                      className="text-[20px] md:text-[24px] font-medium mb-1 text-on-surface group-hover:text-secondary transition-colors"
+                      style={{ fontFamily: "var(--font-playfair-display)" }}
                     >
-                      {col.description}
-                    </p>
-                  )}
+                      {col.name}
+                    </h2>
+                    {col.description && (
+                      <p
+                        className="text-[13px] md:text-[14px] leading-relaxed text-on-surface-variant/70 line-clamp-2"
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {col.description}
+                      </p>
+                    )}
+                  </div>
+                  <span
+                    className="text-[11px] uppercase tracking-[0.15em] text-secondary/80 font-semibold shrink-0 ml-4"
+                    style={{ fontFamily: "var(--font-inter)" }}
+                  >
+                    {col.product_count} {col.product_count === 1 ? "piece" : "pieces"}
+                  </span>
                 </div>
               </Link>
             ))}
