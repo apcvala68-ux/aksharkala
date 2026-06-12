@@ -1,21 +1,39 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuth } from "@/components/admin/AdminAuthProvider";
 
 export default function AdminLoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const { signIn } = useAuth();
   const router = useRouter();
 
+  useEffect(() => {
+    const savedEmail = localStorage.getItem("aksharkala_admin_email");
+    const savedRemember = localStorage.getItem("aksharkala_remember_me");
+    if (savedEmail && savedRemember === "true") {
+      setEmail(savedEmail);
+      setRememberMe(true);
+    }
+  }, []);
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError("");
     setLoading(true);
+
+    if (rememberMe) {
+      localStorage.setItem("aksharkala_admin_email", email);
+      localStorage.setItem("aksharkala_remember_me", "true");
+    } else {
+      localStorage.removeItem("aksharkala_admin_email");
+      localStorage.removeItem("aksharkala_remember_me");
+    }
 
     const result = await signIn(email, password);
     if (result.error) {
@@ -108,6 +126,24 @@ export default function AdminLoginPage() {
                 onBlur={(e) => (e.target.style.borderColor = "#534344")}
                 placeholder="Enter password"
               />
+            </div>
+
+            {/* Remember Me */}
+            <div className="flex items-center justify-between">
+              <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                <input
+                  type="checkbox"
+                  checked={rememberMe}
+                  onChange={(e) => setRememberMe(e.target.checked)}
+                  className="w-4 h-4 rounded cursor-pointer accent-[#C6A972]"
+                />
+                <span
+                  className="text-[13px]"
+                  style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}
+                >
+                  Remember me
+                </span>
+              </label>
             </div>
 
             {/* Error */}
