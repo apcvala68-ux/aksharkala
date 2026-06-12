@@ -105,7 +105,7 @@ export default function HomePage() {
           ═══════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-16 md:justify-center md:pt-24 md:pb-12 overflow-hidden"
+        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-8 md:justify-center md:pt-24 md:pb-12 overflow-hidden"
       >
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
