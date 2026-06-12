@@ -18,7 +18,7 @@ export default function Navbar() {
   const rightLinks = navLinks.slice(2, 4);
 
   return (
-    <nav className={`fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[1200px] z-50 bg-surface/85 backdrop-blur-md border border-secondary/20 text-on-surface shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition-all duration-300 ${mobileOpen ? "rounded-2xl" : "rounded-full"}`}>
+    <nav className={`fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-[1200px] z-50 bg-surface/85 backdrop-blur-md border border-secondary/20 text-on-surface shadow-[0_8px_32px_rgba(0,0,0,0.35)] transition duration-300 ${mobileOpen ? "rounded-2xl" : "rounded-full"}`}>
       {/* Desktop Nav */}
       <div className="hidden md:flex justify-between items-center px-12 h-16">
         {/* Left Links */}
