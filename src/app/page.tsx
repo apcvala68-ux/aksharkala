@@ -105,7 +105,7 @@ export default function HomePage() {
           ═══════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-dvh flex items-center justify-center overflow-hidden"
+        className="relative w-full min-h-dvh flex flex-col items-center justify-center pt-24 pb-12 overflow-hidden"
       >
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
@@ -129,7 +129,7 @@ export default function HomePage() {
         </div>
 
         {/* Content */}
-        <div className="relative z-10 max-w-[1440px] mx-auto px-5 md:px-20 text-center mt-20">
+        <div className="relative z-10 max-w-[1440px] mx-auto px-5 md:px-20 text-center">
           <ScrollReveal delay={200}>
             <span
               className="text-[11px] md:text-[13px] tracking-[0.3em] text-secondary font-semibold uppercase block mb-4"
@@ -145,7 +145,7 @@ export default function HomePage() {
 
           <ScrollReveal delay={600}>
             <h1
-              className="text-[28px] md:text-[48px] lg:text-[84px] font-bold text-on-surface tracking-tight max-w-5xl mx-auto leading-[1.05]"
+              className="text-[32px] md:text-[48px] lg:text-[84px] font-bold text-on-surface tracking-tight max-w-5xl mx-auto leading-[1.1]"
               style={{ fontFamily: "var(--font-playfair-display)", letterSpacing: "-0.02em" }}
             >
               Weaving the Pedigree of{" "}
@@ -160,7 +160,7 @@ export default function HomePage() {
 
           <ScrollReveal delay={800}>
             <p
-              className="text-[15px] md:text-[16px] lg:text-[18px] text-on-surface-variant max-w-2xl mx-auto mt-6 leading-[1.7]"
+              className="text-[13px] sm:text-[15px] md:text-[16px] lg:text-[18px] text-on-surface-variant max-w-xl md:max-w-2xl mx-auto mt-4 md:mt-6 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Woven on century-old looms using archive blueprints, our silks carry the weight of history and the touch of human hands. Crafted for those who value true rarity.
@@ -168,17 +168,17 @@ export default function HomePage() {
           </ScrollReveal>
 
           <ScrollReveal delay={1000}>
-            <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-8">
+            <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-6 md:pt-8 w-full max-w-[420px] sm:max-w-none mx-auto">
               <Link
                 href="/inquiry"
-                className="btn-primary px-6 py-3 md:px-8 md:py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+                className="btn-primary flex-1 sm:flex-initial px-3 py-3 md:px-8 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Request Wholesale Catalog
+                Request <span className="hidden sm:inline">Wholesale</span> Catalog
               </Link>
               <Link
                 href="/heritage"
-                className="btn-secondary px-6 py-3 md:px-8 md:py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+                className="btn-secondary flex-1 sm:flex-initial px-3 py-3 md:px-8 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Our Heritage
@@ -187,8 +187,8 @@ export default function HomePage() {
           </ScrollReveal>
         </div>
 
-        {/* Scroll Indicator */}
-        <ScrollReveal delay={1400} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
+        {/* Scroll Indicator (Hidden on Mobile) */}
+        <ScrollReveal delay={1400} className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
           <div className="flex flex-col items-center gap-2">
             <span
               className="text-[10px] tracking-[0.2em] uppercase text-on-surface-variant"
