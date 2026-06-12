@@ -73,6 +73,8 @@ html {
   scroll-behavior: smooth;
   scrollbar-width: thin;
   scrollbar-color: #C6A972 #0B0B0C;
+  overflow-x: hidden;
+  max-width: 100%;
 }
 
 /* Custom Webkit Scrollbar */
@@ -101,6 +103,9 @@ body {
   font-family: var(--font-inter), sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  overflow-x: hidden;
+  width: 100%;
+  max-width: 100%;
 }
 
 ::selection {

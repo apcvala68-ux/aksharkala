@@ -71,7 +71,7 @@ export default function StatsSection() {
           observer.disconnect();
         }
       },
-      { threshold: 0.3 }
+      { threshold: 0.1 }
     );
 
     observer.observe(el);
@@ -92,6 +92,8 @@ export default function StatsSection() {
             <div
               key={stat.label}
               className={`flex flex-col items-center justify-center p-4 md:p-5 stat-card-luxury group cursor-default fade-in-up ${
+                visible ? "is-visible" : ""
+              } ${
                 i > 0 ? `delay-${i * 100}` : ""
               } ${i === 4 ? "col-span-2 md:col-span-1" : ""}`}
             >

@@ -108,7 +108,7 @@ export default function HomePage() {
         className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-6 md:pb-8 overflow-hidden"
       >
         {/* Video Background */}
-        <div className="absolute inset-0 z-0">
+        <div className="absolute inset-0 z-0 overflow-hidden">
           <video
             ref={videoRef}
             className="absolute inset-0 w-full h-full object-cover scale-110"
