@@ -95,64 +95,55 @@ export default function CollectionsPage() {
                       <span className="text-[48px]" style={{ color: "#534344" }}>✦</span>
                     </div>
                   )}
-                  {/* Overlay gradient */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+                  {/* Overlay gradient on hover */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
+
+                  {/* Mobile: Title + count overlaid on image */}
+                  <div className="absolute bottom-0 left-0 right-0 p-5 md:hidden">
+                    <h2
+                      className="text-[22px] font-medium text-white mb-1"
+                      style={{ fontFamily: "var(--font-playfair-display)" }}
+                    >
+                      {col.name}
+                    </h2>
+                    <span
+                      className="text-[10px] uppercase tracking-[0.15em] text-white/70 font-semibold"
+                      style={{ fontFamily: "var(--font-inter)" }}
+                    >
+                      {col.product_count} {col.product_count === 1 ? "piece" : "pieces"}
+                    </span>
+                  </div>
+
+                  {/* Desktop: Explore pill on hover */}
+                  <div className="absolute inset-0 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                    <span
+                      className="inline-flex items-center gap-2 px-6 py-3 rounded-full text-[11px] uppercase tracking-[0.12em] font-semibold bg-secondary text-[#0B0B0C]"
+                      style={{ fontFamily: "var(--font-inter)" }}
+                    >
+                      Explore
+                      <svg width="12" height="12" viewBox="0 0 12 12" fill="none">
+                        <path d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
+                      </svg>
+                    </span>
+                  </div>
                 </div>
 
-                {/* Info */}
-                <div className="p-6 md:p-8">
-                  <div className="flex items-center justify-between gap-4">
-                    <div className="flex-1 min-w-0">
-                      <h2
-                        className="text-[20px] md:text-[24px] font-medium mb-2 text-on-surface group-hover:text-secondary transition-colors"
-                        style={{ fontFamily: "var(--font-playfair-display)" }}
-                      >
-                        {col.name}
-                      </h2>
-                      {col.description && (
-                        <p
-                          className="text-[13px] md:text-[14px] leading-relaxed text-on-surface-variant/70 line-clamp-2"
-                          style={{ fontFamily: "var(--font-inter)" }}
-                        >
-                          {col.description}
-                        </p>
-                      )}
-                    </div>
-                    <div className="flex flex-col items-end shrink-0 gap-3">
-                      <span
-                        className="text-[11px] uppercase tracking-[0.15em] text-secondary/80 font-semibold"
-                        style={{ fontFamily: "var(--font-inter)" }}
-                      >
-                        {col.product_count} {col.product_count === 1 ? "piece" : "pieces"}
-                      </span>
-                      {/* Explore Button */}
-                      <span
-                        className="inline-flex items-center gap-2 px-5 py-2.5 rounded-full text-[11px] uppercase tracking-[0.12em] font-semibold transition-all duration-300 group-hover:bg-secondary group-hover:text-[#0B0B0C] border"
-                        style={{
-                          fontFamily: "var(--font-inter)",
-                          color: "#C6A972",
-                          borderColor: "rgba(198,169,114,0.3)",
-                        }}
-                      >
-                        Explore
-                        <svg
-                          width="12"
-                          height="12"
-                          viewBox="0 0 12 12"
-                          fill="none"
-                          className="transform group-hover:translate-x-0.5 transition-transform duration-300"
-                        >
-                          <path
-                            d="M2.5 6H9.5M9.5 6L6.5 3M9.5 6L6.5 9"
-                            stroke="currentColor"
-                            strokeWidth="1.5"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                          />
-                        </svg>
-                      </span>
-                    </div>
-                  </div>
+                {/* Desktop: Info below image */}
+                <div className="hidden md:block p-6 md:p-8">
+                  <h2
+                    className="text-[20px] md:text-[24px] font-medium mb-2 text-on-surface group-hover:text-secondary transition-colors"
+                    style={{ fontFamily: "var(--font-playfair-display)" }}
+                  >
+                    {col.name}
+                  </h2>
+                  {col.description && (
+                    <p
+                      className="text-[13px] md:text-[14px] leading-relaxed text-on-surface-variant/70 line-clamp-2"
+                      style={{ fontFamily: "var(--font-inter)" }}
+                    >
+                      {col.description}
+                    </p>
+                  )}
                 </div>
               </Link>
             ))}
