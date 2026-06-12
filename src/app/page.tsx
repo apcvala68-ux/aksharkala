@@ -174,7 +174,7 @@ export default function HomePage() {
                 className="btn-primary flex-1 sm:flex-initial px-3 py-3 md:px-8 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                Request <span className="hidden sm:inline">Wholesale</span> Catalog
+                Request{" "}<span className="hidden sm:inline">Wholesale </span>Catalog
               </Link>
               <Link
                 href="/heritage"
@@ -186,21 +186,6 @@ export default function HomePage() {
             </div>
           </ScrollReveal>
         </div>
-
-        {/* Scroll Indicator (Hidden on Mobile) */}
-        <ScrollReveal delay={1400} className="hidden md:block absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <div className="flex flex-col items-center gap-2">
-            <span
-              className="text-[10px] tracking-[0.2em] uppercase text-on-surface-variant"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Scroll
-            </span>
-            <div className="w-[1px] h-8 bg-secondary/40 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1/2 bg-secondary scroll-indicator" />
-            </div>
-          </div>
-        </ScrollReveal>
       </section>
 
       {/* ═══════════════════════════════════════════════════
