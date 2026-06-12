@@ -380,32 +380,45 @@ export default function CollectionsPage() {
               Category
             </h4>
             <ul className="space-y-3.5">
-              {categories.map((cat) => (
-                <li key={cat}>
-                  <label className="flex items-center gap-3.5 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={selectedCategory === cat}
-                      onChange={() => setSelectedCategory(cat)}
-                      className="sr-only peer"
-                    />
-                    <div className="w-5 h-5 border border-secondary/30 rounded bg-transparent flex items-center justify-center transition-all duration-300 peer-checked:border-secondary peer-checked:bg-secondary/10 group-hover:border-secondary/60">
-                      <span className="material-symbols-outlined text-[13px] text-secondary font-bold opacity-0 transition-opacity duration-200 peer-checked:opacity-100">
-                        check
+              {categories.map((cat) => {
+                const isChecked = selectedCategory === cat;
+                return (
+                  <li key={cat}>
+                    <label className="flex items-center gap-3.5 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => setSelectedCategory(cat)}
+                        className="sr-only"
+                      />
+                      <div className={`w-[18px] h-[18px] border rounded flex items-center justify-center transition-all duration-300 ${
+                        isChecked 
+                          ? "border-secondary bg-secondary" 
+                          : "border-on-surface-variant/30 bg-transparent group-hover:border-secondary/60"
+                      }`}>
+                        <span className={`material-symbols-outlined text-[12px] text-[#0C0C0D] font-black transition-opacity duration-200 ${
+                          isChecked ? "opacity-100" : "opacity-0"
+                        }`}>
+                          check
+                        </span>
+                      </div>
+                      <span
+                        className={`text-[13px] tracking-wide transition-colors ${
+                          isChecked 
+                            ? "text-on-surface font-semibold" 
+                            : "text-on-surface-variant/70 group-hover:text-on-surface"
+                        }`}
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {cat}
                       </span>
-                    </div>
-                    <span
-                      className="text-[14px] text-on-surface-variant/90 group-hover:text-on-surface transition-colors"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {cat}
-                    </span>
-                  </label>
-                </li>
-              ))}
+                    </label>
+                  </li>
+                );
+              })}
             </ul>
           </div>
-
+ 
           {/* Fabric Section */}
           <div className="space-y-4">
             <h4
@@ -415,39 +428,50 @@ export default function CollectionsPage() {
               Fabric
             </h4>
             <ul className="space-y-3.5">
-              {fabrics.map((fab) => (
-                <li key={fab}>
-                  <label className="flex items-center gap-3.5 cursor-pointer group">
-                    <input
-                      type="checkbox"
-                      checked={
-                        fab === "All Fabrics"
-                          ? selectedFabrics.length === 0
-                          : selectedFabrics.includes(fab)
-                      }
-                      onChange={() => {
-                        if (fab === "All Fabrics") {
-                          setSelectedFabrics([]);
-                        } else {
-                          toggleFabric(fab);
-                        }
-                      }}
-                      className="sr-only peer"
-                    />
-                    <div className="w-5 h-5 border border-secondary/30 rounded bg-transparent flex items-center justify-center transition-all duration-300 peer-checked:border-secondary peer-checked:bg-secondary/10 group-hover:border-secondary/60">
-                      <span className="material-symbols-outlined text-[13px] text-secondary font-bold opacity-0 transition-opacity duration-200 peer-checked:opacity-100">
-                        check
+              {fabrics.map((fab) => {
+                const isChecked = fab === "All Fabrics"
+                  ? selectedFabrics.length === 0
+                  : selectedFabrics.includes(fab);
+                return (
+                  <li key={fab}>
+                    <label className="flex items-center gap-3.5 cursor-pointer group">
+                      <input
+                        type="checkbox"
+                        checked={isChecked}
+                        onChange={() => {
+                          if (fab === "All Fabrics") {
+                            setSelectedFabrics([]);
+                          } else {
+                            toggleFabric(fab);
+                          }
+                        }}
+                        className="sr-only"
+                      />
+                      <div className={`w-[18px] h-[18px] border rounded flex items-center justify-center transition-all duration-300 ${
+                        isChecked 
+                          ? "border-secondary bg-secondary" 
+                          : "border-on-surface-variant/30 bg-transparent group-hover:border-secondary/60"
+                      }`}>
+                        <span className={`material-symbols-outlined text-[12px] text-[#0C0C0D] font-black transition-opacity duration-200 ${
+                          isChecked ? "opacity-100" : "opacity-0"
+                        }`}>
+                          check
+                        </span>
+                      </div>
+                      <span
+                        className={`text-[13px] tracking-wide transition-colors ${
+                          isChecked 
+                            ? "text-on-surface font-semibold" 
+                            : "text-on-surface-variant/70 group-hover:text-on-surface"
+                        }`}
+                        style={{ fontFamily: "var(--font-inter)" }}
+                      >
+                        {fab}
                       </span>
-                    </div>
-                    <span
-                      className="text-[14px] text-on-surface-variant/90 group-hover:text-on-surface transition-colors"
-                      style={{ fontFamily: "var(--font-inter)" }}
-                    >
-                      {fab}
-                    </span>
-                  </label>
-                </li>
-              ))}
+                    </label>
+                  </li>
+                );
+              })}
             </ul>
           </div>
 
