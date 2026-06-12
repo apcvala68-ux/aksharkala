@@ -160,7 +160,7 @@ export default function HomePage() {
 
           <ScrollReveal delay={800}>
             <p
-              className="text-[11px] sm:text-[13px] md:text-[14px] text-on-surface-variant max-w-xl md:max-w-2xl mx-auto mt-4 md:mt-5 leading-[1.7]"
+              className="text-[11px] sm:text-[13px] md:text-[14px] text-on-surface-variant max-w-xl md:max-w-[860px] mx-auto mt-4 md:mt-5 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Woven on century-old looms using archive blueprints, our silks carry the weight of history and the touch of human hands.
@@ -176,7 +176,7 @@ export default function HomePage() {
                 className="btn-primary flex-1 px-3 py-3 md:px-6 md:py-4 text-[10px] sm:text-[12px] font-semibold tracking-[0.1em] uppercase inline-flex items-center justify-center cursor-pointer text-center"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
-                {"Request "}<span className="hidden sm:inline">Wholesale </span>{"Catalog"}
+                Request Catalog
               </Link>
               <Link
                 href="/heritage"
