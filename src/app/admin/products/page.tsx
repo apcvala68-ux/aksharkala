@@ -6,6 +6,7 @@ import { Modal } from "@/components/admin/Modal";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { EmptyState } from "@/components/admin/EmptyState";
 import { useAuth } from "@/components/admin/AdminAuthProvider";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 import { Package, Plus, Trash2, Pencil } from "lucide-react";
 import Image from "next/image";
 
@@ -270,6 +271,7 @@ function ProductFormModal({
     customization: "",
     shipping: "FOB Mumbai / CIF global ports",
   });
+  const [images, setImages] = useState<string[]>([]);
 
   useEffect(() => {
     if (product) {
@@ -285,17 +287,19 @@ function ProductFormModal({
         customization: (product as unknown as Record<string, string>).customization || "",
         shipping: (product as unknown as Record<string, string>).shipping || "FOB Mumbai / CIF global ports",
       });
+      setImages(product.images || []);
     } else {
       setForm({
         title: "", slug: "", description: "", price: "", fabric: "", category: "",
         moq: "", lead_time: "", customization: "", shipping: "FOB Mumbai / CIF global ports",
       });
+      setImages([]);
     }
   }, [product]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onSave(form as unknown as Partial<Product>);
+    onSave({ ...form, images } as unknown as Partial<Product>);
   };
 
   return (
@@ -348,6 +352,17 @@ function ProductFormModal({
             rows={3}
             className="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none resize-none"
             style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+          />
+        </div>
+        <div>
+          <label className="block text-[11px] tracking-[0.1em] uppercase mb-2" style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}>
+            Images
+          </label>
+          <ImageUpload
+            images={images}
+            onChange={setImages}
+            folder={`aksharkala/products/${form.slug || "uncategorized"}`}
+            maxImages={8}
           />
         </div>
         <div className="flex justify-end gap-3 pt-2">
