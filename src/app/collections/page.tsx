@@ -252,33 +252,38 @@ export default function CollectionsPage() {
           >
             {filteredProducts.length} items
           </span>
-          <div className="flex items-center gap-4">
-            {/* Grid Toggle */}
-            <div className="flex items-center border border-secondary/20 rounded-full p-0.5 bg-[#15130d]/80">
-              <button
-                onClick={() => setGridCols(1)}
-                className={`w-7 h-7 rounded-full transition-all flex items-center justify-center cursor-pointer ${
-                  gridCols === 1 ? "bg-secondary text-[#0c0c0d] font-semibold" : "text-on-surface-variant/65 hover:text-on-surface"
-                }`}
-                aria-label="1 column"
+          <div className="flex items-center gap-3">
+            {/* Grid Toggle (Zara Style: clean outline numbers matching desktop) */}
+            <div className="flex items-center gap-2">
+              <span 
+                className="text-[10px] uppercase tracking-[0.15em] text-on-surface-variant/50 font-semibold mr-1" 
+                style={{ fontFamily: "var(--font-inter)" }}
               >
-                <span className="material-symbols-outlined text-[16px]">view_stream</span>
-              </button>
-              <button
-                onClick={() => setGridCols(2)}
-                className={`w-7 h-7 rounded-full transition-all flex items-center justify-center cursor-pointer ${
-                  gridCols === 2 ? "bg-secondary text-[#0c0c0d] font-semibold" : "text-on-surface-variant/65 hover:text-on-surface"
-                }`}
-                aria-label="2 columns"
-              >
-                <span className="material-symbols-outlined text-[16px]">grid_view</span>
-              </button>
+                Grid:
+              </span>
+              {[1, 2].map((cols) => (
+                <button
+                  key={cols}
+                  onClick={() => setGridCols(cols as any)}
+                  className={`w-7 h-7 rounded-full flex items-center justify-center border text-[10px] font-semibold tracking-wider transition-all duration-300 cursor-pointer ${
+                    gridCols === cols
+                      ? "border-secondary bg-secondary/10 text-secondary"
+                      : "border-outline-variant/15 text-on-surface-variant/60"
+                  }`}
+                  style={{ fontFamily: "var(--font-inter)" }}
+                >
+                  {cols}
+                </button>
+              ))}
             </div>
 
-            {/* Filters Trigger (Icon only, borderless) */}
+            {/* Elegant Divider */}
+            <span className="h-4 w-[1px] bg-secondary/20"></span>
+
+            {/* Filters Trigger (Icon only, borderless, matching desktop) */}
             <button
               onClick={() => setFilterOpen(true)}
-              className="w-8 h-8 rounded-full flex items-center justify-center text-secondary hover:bg-secondary/5 transition-colors cursor-pointer"
+              className="w-8 h-8 rounded-full flex items-center justify-center text-on-surface-variant/80 hover:text-secondary transition-colors cursor-pointer"
               aria-label="Toggle Filters"
             >
               <span className="material-symbols-outlined text-[16px]">tune</span>
