@@ -145,7 +145,7 @@ export default function HomePage() {
 
           <ScrollReveal delay={600}>
             <h1
-              className="text-[48px] md:text-[84px] font-bold text-on-surface tracking-tight max-w-5xl mx-auto leading-[1.05]"
+              className="text-[28px] md:text-[48px] lg:text-[84px] font-bold text-on-surface tracking-tight max-w-5xl mx-auto leading-[1.05]"
               style={{ fontFamily: "var(--font-playfair-display)", letterSpacing: "-0.02em" }}
             >
               Weaving the Pedigree of{" "}
@@ -160,7 +160,7 @@ export default function HomePage() {
 
           <ScrollReveal delay={800}>
             <p
-              className="text-[16px] md:text-[18px] text-on-surface-variant max-w-2xl mx-auto mt-6 leading-[1.7]"
+              className="text-[15px] md:text-[16px] lg:text-[18px] text-on-surface-variant max-w-2xl mx-auto mt-6 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Woven on century-old looms using archive blueprints, our silks carry the weight of history and the touch of human hands. Crafted for those who value true rarity.
@@ -171,14 +171,14 @@ export default function HomePage() {
             <div className="flex flex-col sm:flex-row justify-center items-center gap-6 pt-8">
               <Link
                 href="/inquiry"
-                className="btn-primary px-8 py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+                className="btn-primary px-6 py-3 md:px-8 md:py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Request Wholesale Catalog
               </Link>
               <Link
                 href="/heritage"
-                className="btn-secondary px-8 py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+                className="btn-secondary px-6 py-3 md:px-8 md:py-4 text-[12px] font-semibold tracking-[0.1em] uppercase w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 Our Heritage
@@ -214,7 +214,7 @@ export default function HomePage() {
         <div className="py-12 md:py-16 border-b border-secondary/10">
           <ScrollReveal className="text-center mb-8 md:mb-12 px-5 md:px-20 max-w-[1440px] mx-auto">
             <h2
-              className="text-[28px] md:text-[40px] mb-3 text-on-surface"
+              className="text-[22px] md:text-[32px] lg:text-[40px] mb-3 text-on-surface"
               style={{ fontFamily: "var(--font-playfair-display)" }}
             >
               Trusted by the World&apos;s Finest Houses
@@ -268,8 +268,8 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 3: JOURNEY — Heritage Story
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
-        <div className="grid md:grid-cols-2 gap-12 md:gap-16 items-center">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+        <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           <ScrollReveal direction="left" className="order-2 md:order-1">
             <div className="relative aspect-[4/5] overflow-hidden gold-border group">
               <Image
@@ -296,13 +296,13 @@ export default function HomePage() {
                 Est. 1924
               </span>
               <h2
-                className="text-[40px] md:text-[48px] leading-[1.2] text-on-surface font-bold"
+                className="text-[24px] md:text-[36px] lg:text-[48px] leading-[1.2] text-on-surface font-bold"
                 style={{ fontFamily: "var(--font-playfair-display)" }}
               >
                 Legacy of Threads
               </h2>
               <p
-                className="text-[17px] md:text-[18px] leading-[1.8] text-on-surface-variant"
+                className="text-[16px] md:text-[17px] lg:text-[18px] leading-[1.8] text-on-surface-variant"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 For a century, Aksharkala has been the silent custodian of
@@ -340,7 +340,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 4: CRAFT — Featured Collections
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] bg-surface-container-low">
+      <section className="py-16 md:py-[100px] lg:py-[140px] bg-surface-container-low">
         <div className="px-5 md:px-20 max-w-[1440px] mx-auto">
           <ScrollReveal className="text-center mb-12 md:mb-16">
             <p
@@ -350,7 +350,7 @@ export default function HomePage() {
               Curated Excellence
             </p>
             <h2
-              className="text-[40px] md:text-[48px] text-on-surface"
+              className="text-[24px] md:text-[36px] lg:text-[48px] text-on-surface"
               style={{ fontFamily: "var(--font-playfair-display)" }}
             >
               The Collections
@@ -383,7 +383,7 @@ export default function HomePage() {
                           {col.tagline}
                         </span>
                         <h3
-                          className="text-white text-[28px] font-medium leading-tight"
+                          className="text-white text-[20px] md:text-[28px] font-medium leading-tight"
                           style={{ fontFamily: "var(--font-playfair-display)" }}
                         >
                           {col.title}
@@ -427,7 +427,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 5: PROMISE — Trust Signals
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] border-t border-secondary/10 px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-[100px] lg:py-[140px] border-t border-secondary/10 px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="flex flex-col items-center gap-12 md:gap-16">
           <ScrollReveal className="max-w-3xl text-center flex flex-col items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center border border-secondary/20">
@@ -448,13 +448,13 @@ export default function HomePage() {
               </svg>
             </div>
             <h2
-              className="text-[40px] md:text-[48px] text-on-surface font-bold leading-tight"
+              className="text-[24px] md:text-[36px] lg:text-[48px] text-on-surface font-bold leading-tight"
               style={{ fontFamily: "var(--font-playfair-display)" }}
             >
               The Art of the Hand-Woven
             </h2>
             <p
-              className="text-[17px] md:text-[18px] leading-[1.8] text-on-surface-variant max-w-2xl mx-auto"
+              className="text-[16px] md:text-[17px] lg:text-[18px] leading-[1.8] text-on-surface-variant max-w-2xl mx-auto"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Each Aksharkala piece undergoes a rigorous 300-hour weaving
@@ -483,7 +483,7 @@ export default function HomePage() {
                     <path d="M2 9h20" />
                   </svg>
                 </div>
-                <h3 className="text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
+                <h3 className="text-[18px] md:text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
                   100% Pure Silk
                 </h3>
                 <p className="text-[14px] leading-[1.6] text-on-surface-variant" style={{ fontFamily: "var(--font-inter)" }}>
@@ -511,7 +511,7 @@ export default function HomePage() {
                     <path d="M14.5 17.5 4.5 15" />
                   </svg>
                 </div>
-                <h3 className="text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
+                <h3 className="text-[18px] md:text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
                   Hand Embroidered
                 </h3>
                 <p className="text-[14px] leading-[1.6] text-on-surface-variant" style={{ fontFamily: "var(--font-inter)" }}>
@@ -538,7 +538,7 @@ export default function HomePage() {
                     <path d="M2 21c0-3 1.85-5.36 5.08-6C9.5 14.52 12 13 13 12" />
                   </svg>
                 </div>
-                <h3 className="text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
+                <h3 className="text-[18px] md:text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
                   Ethical Sourcing
                 </h3>
                 <p className="text-[14px] leading-[1.6] text-on-surface-variant" style={{ fontFamily: "var(--font-inter)" }}>
@@ -553,13 +553,13 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 6: CTA — Final Call to Action
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
         <ScrollReveal>
           <div className="w-16 h-[1px] bg-secondary mx-auto mb-10" />
         </ScrollReveal>
         <ScrollReveal delay={100}>
           <h2
-            className="text-[36px] md:text-[48px] lg:text-[56px] text-on-surface mb-6"
+            className="text-[24px] md:text-[36px] lg:text-[56px] text-on-surface mb-6"
             style={{ fontFamily: "var(--font-playfair-display)" }}
           >
             Begin Your Journey
@@ -578,14 +578,14 @@ export default function HomePage() {
           <div className="flex flex-col sm:flex-row justify-center items-center gap-6">
             <Link
               href="/collections"
-              className="btn-primary px-8 py-4 text-[12px] tracking-[0.15em] uppercase font-semibold w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+              className="btn-primary px-6 py-3 md:px-8 md:py-4 text-[12px] tracking-[0.15em] uppercase font-semibold w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Explore Collections
             </Link>
             <Link
               href="/inquiry"
-              className="btn-secondary px-8 py-4 text-[12px] tracking-[0.15em] uppercase font-semibold w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
+              className="btn-secondary px-6 py-3 md:px-8 md:py-4 text-[12px] tracking-[0.15em] uppercase font-semibold w-full sm:w-auto inline-flex items-center justify-center cursor-pointer"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               Request Wholesale Catalog

@@ -97,7 +97,7 @@ export default function HeritagePage() {
           </ScrollReveal>
           <ScrollReveal delay={400}>
             <h1
-              className="text-[48px] md:text-[72px] lg:text-[88px] text-on-surface max-w-4xl leading-[1.05]"
+              className="text-[28px] md:text-[48px] lg:text-[72px] xl:text-[88px] text-on-surface max-w-4xl leading-[1.05]"
               style={{ fontFamily: "var(--font-playfair-display)" }}
             >
               Woven in threads
@@ -107,7 +107,7 @@ export default function HeritagePage() {
           </ScrollReveal>
           <ScrollReveal delay={600}>
             <p
-              className="text-[15px] md:text-[17px] text-on-surface-variant max-w-xl mt-6 leading-[1.7]"
+              className="text-[15px] md:text-[16px] lg:text-[17px] text-on-surface-variant max-w-xl mt-6 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               For seven generations, our artisans have preserved the ancient art
@@ -136,7 +136,7 @@ export default function HeritagePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 2: EDITORIAL INTRO — Parallax Text Reveal
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-8 md:col-start-3 text-center">
             {/* Gold decorative line */}
@@ -146,7 +146,7 @@ export default function HeritagePage() {
 
             <ScrollReveal delay={100}>
               <h2
-                className="text-[28px] md:text-[36px] lg:text-[42px] text-on-surface mb-8 leading-[1.3]"
+                className="text-[22px] md:text-[30px] lg:text-[42px] text-on-surface mb-8 leading-[1.3]"
                 style={{ fontFamily: "var(--font-playfair-display)" }}
               >
                 The true essence of luxury lies not in the rapidity of creation,
@@ -156,7 +156,7 @@ export default function HeritagePage() {
 
             <ScrollReveal delay={200}>
               <p
-                className="text-[16px] md:text-[18px] leading-[1.8] text-on-surface-variant max-w-2xl mx-auto"
+                className="text-[15px] md:text-[16px] lg:text-[18px] leading-[1.8] text-on-surface-variant max-w-2xl mx-auto"
                 style={{ fontFamily: "var(--font-inter)" }}
               >
                 For generations, the artisans behind AKSHARKALA have preserved
@@ -176,7 +176,7 @@ export default function HeritagePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 3: THE ART OF THE WEAVE — Split Screen
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] bg-surface-container-low">
+      <section className="py-16 md:py-[100px] lg:py-[140px] bg-surface-container-low">
         <div className="max-w-[1440px] mx-auto px-5 md:px-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             {/* Image */}
@@ -202,13 +202,13 @@ export default function HeritagePage() {
                   The Craft
                 </p>
                 <h3
-                  className="text-[36px] md:text-[44px] lg:text-[52px] leading-[1.15] text-on-surface mb-6"
+                  className="text-[24px] md:text-[36px] lg:text-[52px] leading-[1.15] text-on-surface mb-6"
                   style={{ fontFamily: "var(--font-playfair-display)" }}
                 >
                   The Art of the Weave
                 </h3>
                 <p
-                  className="text-[15px] md:text-[16px] leading-[1.7] text-on-surface-variant mb-8"
+                  className="text-[15px] md:text-[16px] lg:text-[17px] leading-[1.7] text-on-surface-variant mb-8"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
                   Our master weavers employ techniques passed down through
@@ -252,7 +252,7 @@ export default function HeritagePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 4: VIDEO — Immersive Full-Width Player
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <ScrollReveal>
           <VideoPlayer
             title="The Making of a Saree"
@@ -272,7 +272,7 @@ export default function HeritagePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 6: BENTO GRID — Enhanced Cards
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           {/* Sustainability Card */}
           <ScrollReveal direction="left">
@@ -294,7 +294,7 @@ export default function HeritagePage() {
                   Responsibility
                 </p>
                 <h4
-                  className="text-[28px] md:text-[32px] text-on-surface mb-4"
+                  className="text-[20px] md:text-[28px] lg:text-[32px] text-on-surface mb-4"
                   style={{ fontFamily: "var(--font-playfair-display)" }}
                 >
                   Sustainability Charter
@@ -357,7 +357,7 @@ export default function HeritagePage() {
                   Experience
                 </p>
                 <h4
-                  className="text-[28px] md:text-[32px] text-on-primary-container mb-4"
+                  className="text-[20px] md:text-[28px] lg:text-[32px] text-on-primary-container mb-4"
                   style={{ fontFamily: "var(--font-playfair-display)" }}
                 >
                   Bespoke Appointments
@@ -405,13 +405,13 @@ export default function HeritagePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 7: CTA — Final Call to Action
           ═══════════════════════════════════════════════════ */}
-      <section className="py-[100px] md:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
+      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
         <ScrollReveal>
           <div className="w-16 h-[1px] bg-secondary mx-auto mb-10" />
         </ScrollReveal>
         <ScrollReveal delay={100}>
           <h2
-            className="text-[36px] md:text-[48px] lg:text-[56px] text-on-surface mb-6"
+            className="text-[24px] md:text-[36px] lg:text-[56px] text-on-surface mb-6"
             style={{ fontFamily: "var(--font-playfair-display)" }}
           >
             Begin Your Journey
@@ -429,7 +429,7 @@ export default function HeritagePage() {
         <ScrollReveal delay={300}>
           <Link
             href="/collections"
-            className="nav-link inline-flex items-center gap-3 px-8 py-4 bg-secondary text-on-secondary rounded-none text-[12px] tracking-[0.15em] uppercase font-semibold hover:bg-secondary-fixed-dim hover:text-on-secondary-fixed transition-all duration-300 hover:shadow-[0_0_30px_rgba(198,169,114,0.3)] cursor-pointer"
+            className="nav-link inline-flex items-center gap-3 px-6 py-3 md:px-8 md:py-4 bg-secondary text-on-secondary rounded-none text-[12px] tracking-[0.15em] uppercase font-semibold hover:bg-secondary-fixed-dim hover:text-on-secondary-fixed transition-all duration-300 hover:shadow-[0_0_30px_rgba(198,169,114,0.3)] cursor-pointer"
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Explore Collections

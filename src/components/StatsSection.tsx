@@ -101,7 +101,7 @@ export default function StatsSection() {
               )}
               
               <span
-                className="text-[28px] md:text-[42px] font-bold text-secondary transition-all duration-500 group-hover:text-shadow-gold group-hover:scale-105"
+                className="text-[22px] md:text-[32px] lg:text-[42px] font-bold text-secondary transition-all duration-500 group-hover:text-shadow-gold group-hover:scale-105"
                 style={{ fontFamily: "var(--font-playfair-display)" }}
               >
                 <AnimatedCounter value={stat.value} prefix={stat.prefix} suffix={stat.suffix} isVisible={visible} />
