@@ -48,17 +48,23 @@ export default function HomePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Hero video parallax on scroll
+  // Hero video parallax on scroll — synced with Lenis via RAF
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
+    let ticking = false;
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const videoEl = hero.querySelector("video");
-      if (videoEl) {
-        videoEl.style.transform = `translateY(${scrollY * 0.3}px)`;
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const videoEl = hero.querySelector("video");
+        if (videoEl) {
+          videoEl.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
+        }
+        ticking = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });
@@ -109,6 +115,7 @@ export default function HomePage() {
             playsInline
             muted
             loop
+            preload="metadata"
             poster="https://lh3.googleusercontent.com/aida-public/AB6AXuABKOT7_VxtfeA10zCH31yrs3VRVjrhfVuscPNrBmAGs9eY-muoRUqWFU-DAY3Zpkvv-Js00HKolwcaZ51-KK--gxUUN9quq64MU0dYmoBJX2NZujd72a3u58AIQP5uyl_wm7AhZfUKCv68xC92MijB7WxeXIETa92jQJOMV1KHDEnue8k4kpX4qtELEJboeJBekY9sXylHBkHp_IJ-eXixE7e68PCX2znXD0Wr8LEto_j8feZVqH3HASzitGfc9pRX9oBerWRYAX4"
           >
             <source

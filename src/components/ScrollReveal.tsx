@@ -51,9 +51,10 @@ export default function ScrollReveal({
       }
     };
 
-    // Set initial state
+    // Set initial state — promote to GPU layer
     el.style.opacity = "0";
     el.style.transform = getTransform(0);
+    el.style.willChange = "opacity, transform";
     el.style.transition = `opacity ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms, transform ${duration}ms cubic-bezier(0.16, 1, 0.3, 1) ${delay}ms`;
 
     const observer = new IntersectionObserver(
@@ -62,6 +63,10 @@ export default function ScrollReveal({
           if (entry.isIntersecting) {
             el.style.opacity = "1";
             el.style.transform = getTransform(1);
+            // Free GPU layer after animation completes
+            setTimeout(() => {
+              el.style.willChange = "auto";
+            }, duration + delay + 50);
             observer.unobserve(el);
           }
         });

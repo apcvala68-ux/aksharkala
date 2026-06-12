@@ -11,17 +11,23 @@ export default function HeritagePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Hero video parallax on scroll
+  // Hero video parallax on scroll — synced with Lenis via RAF
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
+    let ticking = false;
     const handleScroll = () => {
-      const scrollY = window.scrollY;
-      const videoEl = hero.querySelector("video");
-      if (videoEl) {
-        videoEl.style.transform = `translateY(${scrollY * 0.3}px)`;
-      }
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(() => {
+        const scrollY = window.scrollY;
+        const videoEl = hero.querySelector("video");
+        if (videoEl) {
+          videoEl.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
+        }
+        ticking = false;
+      });
     };
 
     window.addEventListener("scroll", handleScroll, { passive: true });

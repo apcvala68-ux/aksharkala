@@ -233,7 +233,7 @@ body {
   animation: scroll-indicator 1.5s ease-in-out infinite;
 }
 
-/* WebGL Canvas */
+/* WebGL Canvas — GPU accelerated */
 #bg-canvas {
   position: fixed;
   top: 0;
@@ -241,22 +241,60 @@ body {
   width: 100vw;
   height: 100dvh;
   z-index: -1;
+  will-change: auto;
+  content-visibility: auto;
 }
 
-/* Marquee Animations */
+/* Performance: GPU layers for animated elements */
+video {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+}
+
+/* Stat cards — promote to GPU layer on hover */
+.stat-card-luxury {
+  contain: layout style;
+  will-change: transform, border-color, background, box-shadow;
+}
+
+/* Gold text shine animation — GPU layer */
+.text-shine-gold {
+  will-change: background-position;
+}
+
+/* Glass panel blur */
+.glass-panel {
+  contain: layout style;
+}
+
+/* Marquee Animations — GPU accelerated, pause off-screen */
 @keyframes scroll-left {
-  0% { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% { transform: translate3d(0, 0, 0); }
+  100% { transform: translate3d(-50%, 0, 0); }
 }
 @keyframes scroll-right {
-  0% { transform: translateX(-50%); }
-  100% { transform: translateX(0); }
+  0% { transform: translate3d(-50%, 0, 0); }
+  100% { transform: translate3d(0, 0, 0); }
+}
+.animate-scroll-left,
+.animate-scroll-right {
+  will-change: transform;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 .animate-scroll-left {
   animation: scroll-left 20s linear infinite;
 }
 .animate-scroll-right {
   animation: scroll-right 20s linear infinite;
+}
+/* Pause marquee when off-screen for performance */
+@media (prefers-reduced-motion: no-preference) {
+  .animate-scroll-left,
+  .animate-scroll-right {
+    animation-play-state: running;
+  }
 }
 
 /* Stat Card Hover */
@@ -345,5 +383,13 @@ textarea:focus-visible {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+}
+
+/* Performance: content-visibility for off-screen sections */
+@media (min-width: 768px) {
+  section {
+    content-visibility: auto;
+    contain-intrinsic-size: auto 600px;
   }
 }
