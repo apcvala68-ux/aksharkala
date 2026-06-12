@@ -105,7 +105,7 @@ export default function HomePage() {
           ═══════════════════════════════════════════════════ */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-8 md:pb-20 overflow-hidden"
+        className="relative w-full min-h-dvh flex flex-col items-center justify-end pt-28 pb-6 md:pb-8 overflow-hidden"
       >
         {/* Video Background */}
         <div className="absolute inset-0 z-0">
@@ -160,10 +160,12 @@ export default function HomePage() {
 
           <ScrollReveal delay={800}>
             <p
-              className="text-[13px] sm:text-[15px] md:text-[16px] lg:text-[18px] text-on-surface-variant max-w-xl md:max-w-2xl mx-auto mt-4 md:mt-6 leading-[1.7]"
+              className="text-[11px] sm:text-[13px] md:text-[14px] text-on-surface-variant max-w-xl md:max-w-2xl mx-auto mt-4 md:mt-5 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              Woven on century-old looms using archive blueprints, our silks carry the weight of history and the touch of human hands. Crafted for those who value true rarity.
+              Woven on century-old looms using archive blueprints, our silks carry the weight of history and the touch of human hands.
+              <br className="hidden md:inline" />
+              {" "}Crafted for those who value true rarity.
             </p>
           </ScrollReveal>
 
