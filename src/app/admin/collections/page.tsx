@@ -5,6 +5,7 @@ import { DataTable, Column } from "@/components/admin/DataTable";
 import { Modal } from "@/components/admin/Modal";
 import { ConfirmDialog } from "@/components/admin/ConfirmDialog";
 import { EmptyState } from "@/components/admin/EmptyState";
+import { ImageUpload } from "@/components/admin/ImageUpload";
 import { Layers, Plus, Trash2, Pencil, Eye, EyeOff } from "lucide-react";
 import Image from "next/image";
 
@@ -341,15 +342,13 @@ function CollectionFormModal({
           </div>
           <div>
             <label className="block text-[11px] tracking-[0.1em] uppercase mb-2" style={{ fontFamily: "var(--font-inter)", color: "#d9c1c2" }}>
-              Cover Image URL
+              Cover Image
             </label>
-            <input
-              type="text"
-              value={form.cover_image}
-              onChange={(e) => setForm({ ...form, cover_image: e.target.value })}
-              placeholder="https://..."
-              className="w-full px-4 py-2.5 rounded-lg text-[13px] outline-none"
-              style={{ fontFamily: "var(--font-inter)", background: "#222018", border: "1px solid #534344", color: "#e8e2d6" }}
+            <ImageUpload
+              images={form.cover_image ? [form.cover_image] : []}
+              onChange={(urls) => setForm({ ...form, cover_image: urls[0] || "" })}
+              folder="aksharkala/collections"
+              maxImages={1}
             />
           </div>
           <div>
