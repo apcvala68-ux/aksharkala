@@ -24,37 +24,12 @@ export default function HeritagePage() {
     setMuted(next);
   }, [muted, postToYT]);
 
-  useEffect(() => {
-    const hero = heroRef.current;
-    if (!hero) return;
-
-    let pausedByScroll = false;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          if (pausedByScroll) {
-            postToYT("playVideo");
-            pausedByScroll = false;
-          }
-        } else {
-          postToYT("pauseVideo");
-          pausedByScroll = true;
-        }
-      },
-      { threshold: 0.15 }
-    );
-
-    observer.observe(hero);
-    return () => observer.disconnect();
-  }, [postToYT]);
-
   return (
     <main>
       {/* SECTION 1: HERO */}
       <section
         ref={heroRef}
-        className="relative w-full min-h-dvh flex items-end pb-20 md:pb-28 overflow-hidden"
+        className="relative w-full min-h-dvh flex items-end pb-20 md:pb-14 overflow-hidden"
       >
         {/* YouTube Background */}
         <div className="absolute inset-0 z-0">
@@ -63,27 +38,27 @@ export default function HeritagePage() {
             src="https://www.youtube.com/embed/UUthE98fmlY?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=UUthE98fmlY&playsinline=1&enablejsapi=1"
             title="Aksharkala Heritage"
             allow="autoplay; encrypted-media"
-            className="absolute inset-0 w-full h-full object-cover scale-110"
+            className="absolute inset-0 w-full h-full object-cover scale-100 md:scale-110"
             style={{ border: 0 }}
           />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20" />
-          <div className="absolute inset-0 bg-background/30" />
+          <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 md:via-background/60 to-transparent" />
+          <div className="absolute inset-0 bg-background/10 md:bg-background/30" />
         </div>
 
         {/* Mute/Unmute Button */}
         <button
           onClick={toggleMute}
-          className="absolute top-6 right-6 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors cursor-pointer"
+          className="absolute bottom-6 left-6 md:bottom-24 md:left-10 z-20 w-11 h-11 md:w-14 md:h-14 rounded-full bg-black/50 md:bg-black/60 backdrop-blur-md border border-white/20 md:border-white/25 flex items-center justify-center text-white/80 md:text-white hover:bg-black/70 hover:scale-110 transition-all duration-300 cursor-pointer shadow-[0_2px_12px_rgba(0,0,0,0.4)] md:shadow-[0_4px_20px_rgba(0,0,0,0.5)]"
           aria-label={muted ? "Unmute video" : "Mute video"}
         >
           {muted ? (
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
               <line x1="23" y1="9" x2="17" y2="15"/>
               <line x1="17" y1="9" x2="23" y2="15"/>
             </svg>
           ) : (
-            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
               <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
               <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
               <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
@@ -92,7 +67,7 @@ export default function HeritagePage() {
         </button>
 
         {/* Content */}
-        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 md:px-20">
+        <div className="relative z-10 w-full max-w-[1440px] mx-auto px-6 md:px-20">
           <ScrollReveal delay={200}>
             <p
               className="text-[11px] tracking-[0.2em] uppercase text-secondary mb-4"
@@ -116,31 +91,16 @@ export default function HeritagePage() {
               className="text-[13px] md:text-[14px] lg:text-[15px] text-on-surface-variant max-w-xl mt-6 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
-              For seven generations, our artisans have preserved the ancient art
+              For two generations, our artisans have preserved the ancient art
               of hand-weaving — creating textiles that transcend fashion to
               become heirlooms.
             </p>
           </ScrollReveal>
         </div>
-
-        {/* Scroll Indicator */}
-        <ScrollReveal delay={1000} className="absolute bottom-8 left-1/2 -translate-x-1/2 z-10">
-          <div className="flex flex-col items-center gap-2">
-            <span
-              className="text-[10px] tracking-[0.2em] uppercase text-on-surface-variant"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Scroll
-            </span>
-            <div className="w-[1px] h-8 bg-secondary/40 relative overflow-hidden">
-              <div className="absolute top-0 left-0 w-full h-1/2 bg-secondary scroll-indicator" />
-            </div>
-          </div>
-        </ScrollReveal>
       </section>
 
       {/* SECTION 2: EDITORIAL INTRO */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-12 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-8 md:col-start-3 text-center">
             <ScrollReveal>
@@ -174,7 +134,7 @@ export default function HeritagePage() {
       </section>
 
       {/* SECTION 3: THE ART OF THE WEAVE */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] bg-surface-container-low">
+      <section className="py-16 md:py-[100px] lg:py-[140px]">
         <div className="max-w-[1440px] mx-auto px-5 md:px-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
             <ScrollReveal direction="left" className="order-2 md:order-1">
@@ -268,7 +228,7 @@ export default function HeritagePage() {
       </section>
 
       {/* SECTION 5: TIMELINE */}
-      <section className="bg-surface-container-low">
+      <section>
         <Timeline />
       </section>
 
@@ -276,7 +236,7 @@ export default function HeritagePage() {
       <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
           <ScrollReveal direction="left">
-            <div className="group relative bg-surface p-8 md:p-12 gold-border hover:shadow-[0_0_40px_rgba(198,169,114,0.15)] transition-all duration-500 flex flex-col justify-end min-h-[450px] md:min-h-[550px] overflow-hidden">
+            <div className="group relative bg-surface p-6 md:p-12 gold-border hover:shadow-[0_0_40px_rgba(198,169,114,0.15)] transition-all duration-500 flex flex-col justify-end min-h-[350px] md:min-h-[550px] overflow-hidden">
               <div className="absolute inset-0 z-0">
                 <Image
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUkEikZ3xu-DFoTVTynqU_qXS89vSBkBVpYzVbh1K-sTZWeArHnVpKh-pjHNY-DlFe3xgVQVcaiPN-SCACY99-iq3JZoht-Eq8bB2h-I-LqkwWbvqhrQavyGXIPJOHs4g7GJuPt5pAdn-pr3Hya4n47s_aB50zRKNAz5me7etA0-TVwwAh0o48WcvGO5FEyyK4CF4VlOE464w3PLY7q3tMo54xXNPLHvid492ZBxLTd7q7LaVCjR79S1U0rqc5-xtc_ErdxMlwyli1"
@@ -326,7 +286,7 @@ export default function HeritagePage() {
           </ScrollReveal>
 
           <ScrollReveal direction="right">
-            <div className="group relative bg-primary-container p-8 md:p-12 flex flex-col justify-end min-h-[450px] md:min-h-[550px] overflow-hidden">
+            <div className="group relative bg-primary-container p-6 md:p-12 flex flex-col justify-end min-h-[350px] md:min-h-[550px] overflow-hidden">
               <div className="absolute inset-0 z-0">
                 <Image
                   src="https://lh3.googleusercontent.com/aida-public/AB6AXuDqk7pcgq7TcCMv6gKAvf1wNXfWcBSohAR6jS3ltlbM3GeL5vVSOxbOTx_1OujRkoNGqGU2Ks_WE1YaScDn2-EfBEEPsNzA5iHZPaZD8h1RBZD7X-ROJ5HF2pZYWsjHmBQeirbBseaWh7-305VL2xLS5bq16vRN82HF74P_FqtPShW-NzOqf7LokYzzsRvVRjLXZ8fRgcGDEZ7pSQRkeix_z3flSY6nZKKLYCBjgnLCgMA5LD_sMZSEsErIre0JW3x0VLE8ZsyPFz_Q"

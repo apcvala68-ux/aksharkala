@@ -38,7 +38,7 @@ const steps: TimelineStep[] = [
 
 export default function Timeline() {
   return (
-    <section className="py-[120px] px-5 md:px-20 max-w-[1440px] mx-auto">
+    <section className="py-16 md:py-[120px] px-5 md:px-20 max-w-[1440px] mx-auto">
       <ScrollReveal>
         <div className="text-center mb-16">
           <p
@@ -80,7 +80,7 @@ export default function Timeline() {
               >
                 <div className={i % 2 !== 0 ? "" : "md:col-start-1"}>
                   <span
-                    className="text-[48px] md:text-[64px] font-bold text-secondary/20 leading-none block mb-2"
+                    className="text-[36px] md:text-[64px] font-bold text-secondary/20 leading-none block mb-2"
                     style={{ fontFamily: "var(--font-montserrat)" }}
                   >
                     {step.number}

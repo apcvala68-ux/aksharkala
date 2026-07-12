@@ -184,7 +184,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 3: JOURNEY — Heritage Story
           ═══════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-8 md:py-12 lg:py-16 px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
           <ScrollReveal direction="left" className="order-2 md:order-1">
             <div className="relative aspect-[4/5] overflow-hidden gold-border group">
@@ -256,11 +256,14 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 4: CRAFT — Featured Collections
           ═══════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] bg-surface-container-low">
+      <section className="py-8 md:py-12 lg:py-16">
         <div className="px-5 md:px-20 max-w-[1440px] mx-auto">
-          <ScrollReveal className="text-center mb-12 md:mb-16">
+          <ScrollReveal className="text-center mb-8 md:mb-10">
+            {/* Gold Divider Above Title */}
+            <div className="gold-divider w-16 mx-auto mb-6" />
+
             <p
-              className="text-[12px] tracking-[0.1em] uppercase text-secondary mb-4"
+              className="text-[13px] tracking-[0.25em] uppercase text-secondary mb-3"
               style={{ fontFamily: "var(--font-inter)", fontWeight: 600 }}
             >
               Curated Excellence
@@ -271,14 +274,16 @@ export default function HomePage() {
             >
               The Collections
             </h2>
+            {/* Gold Underline Below Title */}
+            <div className="gold-divider w-20 mx-auto mt-4" />
           </ScrollReveal>
 
-          <div className="grid md:grid-cols-3 gap-6 md:gap-8">
+          <div className="grid md:grid-cols-3 gap-6 md:gap-10">
             {collections.map((col, index) => (
               <ScrollReveal key={col.title} delay={index * 100}>
                 <Link
                   href="/collections"
-                  className="group relative overflow-hidden aspect-[3/4] gold-border hover:shadow-[0_0_40px_rgba(198,169,114,0.25)] transition-all duration-500 block cursor-pointer"
+                  className="group relative overflow-hidden aspect-[2/3] border border-secondary/30 hover:shadow-[0_0_60px_rgba(198,169,114,0.3)] transition-all duration-500 block cursor-pointer"
                 >
                   <Image
                     src={col.image}
@@ -288,11 +293,14 @@ export default function HomePage() {
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
 
-                  {/* Vignette Shadow Overlay */}
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent opacity-85 transition-opacity duration-500 group-hover:opacity-95" />
+                  {/* Vignette Shadow Overlay — Deeper for drama */}
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
+
+                  {/* Gold Shimmer Line on Hover */}
+                  <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-secondary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
 
                   {/* Luxury Hover Details Overlay */}
-                  <div className="absolute inset-x-4 bottom-4 glass-panel border-secondary/20 p-6 flex flex-col justify-end translate-y-[62px] group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                  <div className="absolute inset-x-4 bottom-4 glass-panel border-secondary/25 p-6 flex flex-col justify-end translate-y-[62px] group-hover:translate-y-0 transition-transform duration-500 ease-out">
                     <div className="flex justify-between items-start mb-2">
                       <div>
                         <span className="text-[10px] uppercase tracking-[0.2em] text-secondary font-semibold block mb-1">
@@ -306,7 +314,7 @@ export default function HomePage() {
                         </h3>
                       </div>
                       {/* Hover chevron icon */}
-                      <div className="w-8 h-8 rounded-full border border-secondary/20 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
+                      <div className="w-8 h-8 rounded-full border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
                         <svg
                           width="16"
                           height="16"
@@ -343,7 +351,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 5: PROMISE — Trust Signals
           ═══════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] border-t border-secondary/10 px-5 md:px-20 max-w-[1440px] mx-auto">
+      <section className="py-8 md:py-12 lg:py-16 border-t border-secondary/10 px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="flex flex-col items-center gap-12 md:gap-16">
           <ScrollReveal className="max-w-3xl text-center flex flex-col items-center gap-4">
             <div className="w-14 h-14 rounded-full bg-secondary/10 flex items-center justify-center border border-secondary/20">
@@ -469,7 +477,7 @@ export default function HomePage() {
       {/* ═══════════════════════════════════════════════════
           SECTION 6: CTA — Final Call to Action
           ═══════════════════════════════════════════════════ */}
-      <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
+      <section className="py-8 md:py-12 lg:py-16 px-5 md:px-20 max-w-[1440px] mx-auto text-center">
         <ScrollReveal>
           <div className="w-16 h-[1px] bg-secondary mx-auto mb-10" />
         </ScrollReveal>
