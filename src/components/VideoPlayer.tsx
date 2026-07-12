@@ -13,7 +13,7 @@ interface VideoPlayerProps {
 export default function VideoPlayer({
   src = "https://www.w3schools.com/html/mov_bbb.mp4",
   poster,
-  title = "The Making of a Saree",
+  title = "The Making of a Masterpiece",
   subtitle = "A visual journey through our atelier.",
 }: VideoPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);

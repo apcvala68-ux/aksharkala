@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import SizeChart from "./SizeChart";
 
 interface ProductInfoProps {
   id: number;
@@ -13,6 +14,7 @@ interface ProductInfoProps {
 
 export default function ProductInfo({ id, title, category, description }: ProductInfoProps) {
   const [isExpanded, setIsExpanded] = useState(false);
+  const [showSizeChart, setShowSizeChart] = useState(false);
 
   return (
     <div className="w-full flex flex-col">
@@ -46,6 +48,28 @@ export default function ProductInfo({ id, title, category, description }: Produc
           WHOLESALE PRICING ON REQUEST
         </span>
       </div>
+
+      {/* Size Guide Button */}
+      <button
+        onClick={() => setShowSizeChart(!showSizeChart)}
+        className="text-[11px] tracking-[0.12em] uppercase text-secondary underline underline-offset-4 decoration-secondary/40 hover:decoration-secondary transition-colors cursor-pointer font-semibold self-start mb-4"
+        style={{ fontFamily: "var(--font-inter)" }}
+      >
+        Size Guide
+      </button>
+      {showSizeChart && (
+        <div className="fixed inset-0 z-[100] bg-black/60 backdrop-blur-sm flex items-center justify-center p-4" onClick={() => setShowSizeChart(false)}>
+          <div className="bg-surface border border-secondary/20 rounded-lg max-w-lg w-full max-h-[80vh] overflow-y-auto p-6" onClick={e => e.stopPropagation()}>
+            <div className="flex justify-between items-center mb-6">
+              <h3 className="text-[20px] text-on-surface" style={{ fontFamily: "var(--font-playfair-display)" }}>Size Chart</h3>
+              <button onClick={() => setShowSizeChart(false)} className="text-on-surface-variant hover:text-secondary transition-colors cursor-pointer">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M18 6L6 18M6 6l12 12" /></svg>
+              </button>
+            </div>
+            <SizeChart defaultTab={(category.toLowerCase().includes("lehenga") ? "lehenga" : "indo-western") as "indo-western" | "lehenga"} />
+          </div>
+        </div>
+      )}
 
       {/* Description */}
       {description && (

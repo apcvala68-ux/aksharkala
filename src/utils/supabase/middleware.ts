@@ -11,31 +11,37 @@ export async function updateSession(request: NextRequest) {
     },
   });
 
-  const supabase = createServerClient(supabaseUrl, supabaseKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
-      },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        supabaseResponse = NextResponse.next({
-          request,
-        });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          supabaseResponse.cookies.set(name, value, options)
-        );
-      },
-    },
-  });
+  if (!supabaseUrl || !supabaseKey || supabaseUrl === "https://placeholder.supabase.co") {
+    return supabaseResponse;
+  }
 
-  // Refresh session if expired
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  try {
+    const supabase = createServerClient(supabaseUrl, supabaseKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          supabaseResponse = NextResponse.next({
+            request,
+          });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            supabaseResponse.cookies.set(name, value, options)
+          );
+        },
+      },
+    });
 
-  // If user is signed in and on admin routes, attach user info to headers for RLS
-  if (user && request.nextUrl.pathname.startsWith("/admin")) {
-    supabaseResponse.headers.set("x-admin-user-id", user.id);
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    if (user && request.nextUrl.pathname.startsWith("/admin")) {
+      supabaseResponse.headers.set("x-admin-user-id", user.id);
+    }
+  } catch {
+    // Supabase unavailable — continue without auth
   }
 
   return supabaseResponse;

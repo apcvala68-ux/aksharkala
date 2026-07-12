@@ -295,35 +295,6 @@ video {
   contain: layout style;
 }
 
-/* Marquee Animations — GPU accelerated, pause off-screen */
-@keyframes scroll-left {
-  0% { transform: translate3d(0, 0, 0); }
-  100% { transform: translate3d(-50%, 0, 0); }
-}
-@keyframes scroll-right {
-  0% { transform: translate3d(-50%, 0, 0); }
-  100% { transform: translate3d(0, 0, 0); }
-}
-.animate-scroll-left,
-.animate-scroll-right {
-  will-change: transform;
-  backface-visibility: hidden;
-  -webkit-backface-visibility: hidden;
-}
-.animate-scroll-left {
-  animation: scroll-left 20s linear infinite;
-}
-.animate-scroll-right {
-  animation: scroll-right 20s linear infinite;
-}
-/* Pause marquee when off-screen for performance */
-@media (prefers-reduced-motion: no-preference) {
-  .animate-scroll-left,
-  .animate-scroll-right {
-    animation-play-state: running;
-  }
-}
-
 /* Stat Card Hover */
 .stat-card {
   transition: transform 0.3s ease;

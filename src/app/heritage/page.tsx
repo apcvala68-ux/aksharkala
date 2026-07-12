@@ -1,89 +1,95 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useState, useRef, useCallback, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import ScrollReveal from "@/components/ScrollReveal";
-import VideoPlayer from "@/components/VideoPlayer";
 import Timeline from "@/components/Timeline";
 
 export default function HeritagePage() {
-  const videoRef = useRef<HTMLVideoElement>(null);
+  const [muted, setMuted] = useState(true);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
 
-  // Hero video parallax on scroll — synced with Lenis via RAF
+  const postToYT = useCallback((func: string) => {
+    iframeRef.current?.contentWindow?.postMessage(
+      JSON.stringify({ event: "command", func, args: "" }),
+      "*"
+    );
+  }, []);
+
+  const toggleMute = useCallback(() => {
+    const next = !muted;
+    postToYT(next ? "mute" : "unMute");
+    setMuted(next);
+  }, [muted, postToYT]);
+
   useEffect(() => {
     const hero = heroRef.current;
     if (!hero) return;
 
-    let ticking = false;
-    const handleScroll = () => {
-      if (ticking) return;
-      ticking = true;
-      requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const videoEl = hero.querySelector("video");
-        if (videoEl) {
-          videoEl.style.transform = `translate3d(0, ${scrollY * 0.3}px, 0)`;
-        }
-        ticking = false;
-      });
-    };
-
-    window.addEventListener("scroll", handleScroll, { passive: true });
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
-  // Pause hero video when off-screen
-  useEffect(() => {
-    const video = videoRef.current;
-    if (!video) return;
+    let pausedByScroll = false;
 
     const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            video.play().catch(() => {});
-          } else {
-            video.pause();
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          if (pausedByScroll) {
+            postToYT("playVideo");
+            pausedByScroll = false;
           }
-        });
+        } else {
+          postToYT("pauseVideo");
+          pausedByScroll = true;
+        }
       },
-      { threshold: 0.2 }
+      { threshold: 0.15 }
     );
 
-    observer.observe(video);
+    observer.observe(hero);
     return () => observer.disconnect();
-  }, []);
+  }, [postToYT]);
 
   return (
     <main>
-      {/* ═══════════════════════════════════════════════════
-          SECTION 1: HERO — Full-Screen Video Background
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 1: HERO */}
       <section
         ref={heroRef}
         className="relative w-full min-h-dvh flex items-end pb-20 md:pb-28 overflow-hidden"
       >
-        {/* Video Background */}
+        {/* YouTube Background */}
         <div className="absolute inset-0 z-0">
-          <video
-            ref={videoRef}
+          <iframe
+            ref={iframeRef}
+            src="https://www.youtube.com/embed/UUthE98fmlY?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=UUthE98fmlY&playsinline=1&enablejsapi=1"
+            title="Aksharkala Heritage"
+            allow="autoplay; encrypted-media"
             className="absolute inset-0 w-full h-full object-cover scale-110"
-            playsInline
-            muted
-            loop
-            poster="https://lh3.googleusercontent.com/aida-public/AB6AXuB3ymnwffDtQnMSKng6PDaxjGxaxvSKZMLKhQyHpquezGy9xhjKFX3EzYLN-xzhAkPGygrM5S1Y2Q63Ul3Qh9qaK-vN7y5wrB9Eb5nYjhi2MbNdqAonEa9QwiroIZ6-ImxpeljHr1C1ExgdmJdBYY7G1O0G-9ITpYXsB5pFvWxCzT5z1LWnYJJOLyHSvLjmqdOyojh84EtYiA_ValH-1Qmyk7w_uq7V074iSKH5MANcDB8RMoKHVMQMgkXOqbndvUfrs583AIjPmOoE"
-          >
-            <source
-              src="https://www.w3schools.com/html/mov_bbb.mp4"
-              type="video/mp4"
-            />
-          </video>
-          {/* Gradient Overlay */}
+            style={{ border: 0 }}
+          />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/60 to-background/20" />
           <div className="absolute inset-0 bg-background/30" />
         </div>
+
+        {/* Mute/Unmute Button */}
+        <button
+          onClick={toggleMute}
+          className="absolute top-6 right-6 z-20 w-10 h-10 rounded-full bg-black/50 backdrop-blur-sm border border-white/20 flex items-center justify-center text-white hover:bg-black/70 transition-colors cursor-pointer"
+          aria-label={muted ? "Unmute video" : "Mute video"}
+        >
+          {muted ? (
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <line x1="23" y1="9" x2="17" y2="15"/>
+              <line x1="17" y1="9" x2="23" y2="15"/>
+            </svg>
+          ) : (
+            <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+              <polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/>
+              <path d="M19.07 4.93a10 10 0 0 1 0 14.14"/>
+              <path d="M15.54 8.46a5 5 0 0 1 0 7.07"/>
+            </svg>
+          )}
+        </button>
 
         {/* Content */}
         <div className="relative z-10 w-full max-w-[1440px] mx-auto px-5 md:px-20">
@@ -97,7 +103,7 @@ export default function HeritagePage() {
           </ScrollReveal>
           <ScrollReveal delay={400}>
             <h1
-              className="text-[28px] md:text-[48px] lg:text-[72px] xl:text-[88px] text-on-surface max-w-4xl leading-[1.05]"
+              className="text-[22px] md:text-[36px] lg:text-[52px] xl:text-[64px] text-on-surface max-w-4xl leading-[1.05]"
               style={{ fontFamily: "var(--font-playfair-display)" }}
             >
               Woven in threads
@@ -107,7 +113,7 @@ export default function HeritagePage() {
           </ScrollReveal>
           <ScrollReveal delay={600}>
             <p
-              className="text-[15px] md:text-[16px] lg:text-[17px] text-on-surface-variant max-w-xl mt-6 leading-[1.7]"
+              className="text-[13px] md:text-[14px] lg:text-[15px] text-on-surface-variant max-w-xl mt-6 leading-[1.7]"
               style={{ fontFamily: "var(--font-inter)" }}
             >
               For seven generations, our artisans have preserved the ancient art
@@ -133,17 +139,13 @@ export default function HeritagePage() {
         </ScrollReveal>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 2: EDITORIAL INTRO — Parallax Text Reveal
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 2: EDITORIAL INTRO */}
       <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-12 gap-8">
           <div className="md:col-span-8 md:col-start-3 text-center">
-            {/* Gold decorative line */}
             <ScrollReveal>
               <div className="w-16 h-[1px] bg-secondary mx-auto mb-10" />
             </ScrollReveal>
-
             <ScrollReveal delay={100}>
               <h2
                 className="text-[22px] md:text-[30px] lg:text-[42px] text-on-surface mb-8 leading-[1.3]"
@@ -153,7 +155,6 @@ export default function HeritagePage() {
                 but in the deliberate, meticulous craft of the human hand.
               </h2>
             </ScrollReveal>
-
             <ScrollReveal delay={200}>
               <p
                 className="text-[15px] md:text-[16px] lg:text-[18px] leading-[1.8] text-on-surface-variant max-w-2xl mx-auto"
@@ -165,7 +166,6 @@ export default function HeritagePage() {
                 those who appreciate the quiet resonance of true craftsmanship.
               </p>
             </ScrollReveal>
-
             <ScrollReveal delay={300}>
               <div className="w-16 h-[1px] bg-secondary mx-auto mt-10" />
             </ScrollReveal>
@@ -173,13 +173,10 @@ export default function HeritagePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 3: THE ART OF THE WEAVE — Split Screen
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 3: THE ART OF THE WEAVE */}
       <section className="py-16 md:py-[100px] lg:py-[140px] bg-surface-container-low">
         <div className="max-w-[1440px] mx-auto px-5 md:px-20">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 items-center">
-            {/* Image */}
             <ScrollReveal direction="left" className="order-2 md:order-1">
               <div className="relative aspect-[4/5] overflow-hidden group gold-border">
                 <Image
@@ -191,8 +188,6 @@ export default function HeritagePage() {
                 />
               </div>
             </ScrollReveal>
-
-            {/* Text */}
             <ScrollReveal direction="right" className="order-1 md:order-2">
               <div className="md:pl-8 lg:pl-16">
                 <p
@@ -234,13 +229,7 @@ export default function HeritagePage() {
                     fill="none"
                     className="text-secondary/40 group-hover/link:text-secondary group-hover/link:translate-x-1 transition-all duration-300"
                   >
-                    <path
-                      d="M4 10H16M16 10L11 5M16 10L11 15"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                    <path d="M4 10H16M16 10L11 5M16 10L11 15" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
               </div>
@@ -249,32 +238,43 @@ export default function HeritagePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 4: VIDEO — Immersive Full-Width Player
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 4: VIDEO — YouTube Embed */}
       <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <ScrollReveal>
-          <VideoPlayer
-            title="The Making of a Saree"
-            subtitle="A visual journey through our atelier — from raw silk to finished masterpiece."
-            poster="https://lh3.googleusercontent.com/aida-public/AB6AXuBad5CRTaYA0nptRb6Oed0C8zjN8wb9sg7KcFz1u5Ibl4uPbpb92G8SR3BNbHiq0OrvvnSUyMd8vsWN4NsHPPxxkn2rXX_6eQQGoULscfTdPxMr369fEljkLeLx0z50eoG7W4ym_BxHeC6LIiSyyL1oIxVSFyjc60IF-3J0xC0tYwc6UTH3fIA-I0h9upc1tPxNwh_4ZHFzxrq3porbyT0KA9nbcVWD6wZ-ztQPi7AApjORXXO5LUv_266TF8v002dA6K-aKrHqPLZy"
-          />
+          <div className="text-center mb-12">
+            <h3
+              className="text-[32px] md:text-[40px] text-on-surface mb-2"
+              style={{ fontFamily: "var(--font-playfair-display)" }}
+            >
+              The Making of a Masterpiece
+            </h3>
+            <p
+              className="text-[16px] text-on-surface-variant"
+              style={{ fontFamily: "var(--font-inter)" }}
+            >
+              A visual journey through our atelier — from raw silk to finished masterpiece.
+            </p>
+          </div>
+          <div className="relative w-full aspect-video gold-border overflow-hidden">
+            <iframe
+              src="https://www.youtube.com/embed/UUthE98fmlY?autoplay=1&mute=1&controls=0&rel=0&loop=1&playlist=UUthE98fmlY"
+              title="The Making of a Masterpiece"
+              allow="autoplay; encrypted-media"
+              className="absolute inset-0 w-full h-full"
+              style={{ border: 0 }}
+            />
+          </div>
         </ScrollReveal>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 5: TIMELINE — Scroll-Triggered Journey
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 5: TIMELINE */}
       <section className="bg-surface-container-low">
         <Timeline />
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 6: BENTO GRID — Enhanced Cards
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 6: BENTO GRID */}
       <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto">
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-          {/* Sustainability Card */}
           <ScrollReveal direction="left">
             <div className="group relative bg-surface p-8 md:p-12 gold-border hover:shadow-[0_0_40px_rgba(198,169,114,0.15)] transition-all duration-500 flex flex-col justify-end min-h-[450px] md:min-h-[550px] overflow-hidden">
               <div className="absolute inset-0 z-0">
@@ -317,27 +317,14 @@ export default function HeritagePage() {
                   >
                     Read Charter
                   </span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="text-secondary/40 group-hover/link:text-secondary group-hover/link:translate-x-1 transition-all duration-300"
-                  >
-                    <path
-                      d="M3 8H13M13 8L9 4M13 8L9 12"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-secondary/40 group-hover/link:text-secondary group-hover/link:translate-x-1 transition-all duration-300">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
               </div>
             </div>
           </ScrollReveal>
 
-          {/* Bespoke Card */}
           <ScrollReveal direction="right">
             <div className="group relative bg-primary-container p-8 md:p-12 flex flex-col justify-end min-h-[450px] md:min-h-[550px] overflow-hidden">
               <div className="absolute inset-0 z-0">
@@ -380,20 +367,8 @@ export default function HeritagePage() {
                   >
                     Book Consultation
                   </span>
-                  <svg
-                    width="16"
-                    height="16"
-                    viewBox="0 0 16 16"
-                    fill="none"
-                    className="text-secondary/60 group-hover/link:text-secondary-fixed-dim group-hover/link:translate-x-1 transition-all duration-300"
-                  >
-                    <path
-                      d="M3 8H13M13 8L9 4M13 8L9 12"
-                      stroke="currentColor"
-                      strokeWidth="1.5"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
+                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="text-secondary/60 group-hover/link:text-secondary-fixed-dim group-hover/link:translate-x-1 transition-all duration-300">
+                    <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                   </svg>
                 </Link>
               </div>
@@ -402,9 +377,7 @@ export default function HeritagePage() {
         </div>
       </section>
 
-      {/* ═══════════════════════════════════════════════════
-          SECTION 7: CTA — Final Call to Action
-          ═══════════════════════════════════════════════════ */}
+      {/* SECTION 7: CTA */}
       <section className="py-16 md:py-[100px] lg:py-[140px] px-5 md:px-20 max-w-[1440px] mx-auto text-center">
         <ScrollReveal>
           <div className="w-16 h-[1px] bg-secondary mx-auto mb-10" />
@@ -433,20 +406,8 @@ export default function HeritagePage() {
             style={{ fontFamily: "var(--font-inter)" }}
           >
             Explore Collections
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 16 16"
-              fill="none"
-              className="group-hover:translate-x-1 transition-transform duration-300"
-            >
-              <path
-                d="M3 8H13M13 8L9 4M13 8L9 12"
-                stroke="currentColor"
-                strokeWidth="1.5"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
+            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="group-hover:translate-x-1 transition-transform duration-300">
+              <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
           </Link>
         </ScrollReveal>

@@ -11,9 +11,6 @@ interface StatItem {
 
 const stats: StatItem[] = [
   { value: 15, suffix: "+", label: "Years of Excellence" },
-  { value: 50, suffix: "+", label: "Countries Supplied" },
-  { value: 100, prefix: "₹", suffix: " Cr+", label: "Sales" },
-  { value: 500, suffix: "+", label: "Master Artisans" },
   { value: 100, suffix: "%", label: "Sustainable" },
 ];
 
@@ -87,7 +84,7 @@ export default function StatsSection() {
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_rgba(198,169,114,0.03)_0%,_transparent_75%)] pointer-events-none" />
 
       <div className="max-w-[1440px] mx-auto px-5 md:px-20 relative z-10 scroll-reveal">
-        <div className="grid grid-cols-2 md:grid-cols-5 gap-3 md:gap-0 items-stretch">
+        <div className="grid grid-cols-2 gap-3 items-stretch">
           {stats.map((stat, i) => (
             <div
               key={stat.label}

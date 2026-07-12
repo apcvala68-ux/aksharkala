@@ -31,19 +31,6 @@ const collections = [
   },
 ];
 
-const brandLogos = [
-  { name: "Gucci", logo: "https://upload.wikimedia.org/wikipedia/commons/2/2e/Gucci_Logo.svg" },
-  { name: "Louis Vuitton", logo: "https://upload.wikimedia.org/wikipedia/commons/7/76/Louis_Vuitton_logo_and_wordmark.svg" },
-  { name: "Chanel", logo: "https://upload.wikimedia.org/wikipedia/commons/3/35/Chanel_logo.svg" },
-  { name: "Dior", logo: "https://upload.wikimedia.org/wikipedia/commons/a/a8/Dior_Logo.svg" },
-  { name: "Hermès", logo: "https://upload.wikimedia.org/wikipedia/commons/c/c9/Hermes_wordmark.svg" },
-  { name: "Prada", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b8/Prada-Logo.svg" },
-  { name: "Valentino", logo: "https://upload.wikimedia.org/wikipedia/commons/b/b3/Valentino_logo.svg" },
-  { name: "Balenciaga", logo: "https://upload.wikimedia.org/wikipedia/commons/4/4b/Balenciaga_Logo.svg" },
-  { name: "Saint Laurent", logo: "https://upload.wikimedia.org/wikipedia/commons/f/f6/Saint_Laurent_logo.svg" },
-  { name: "Bottega Veneta", logo: "https://upload.wikimedia.org/wikipedia/commons/1/1f/Logo_of_Bottega_Veneta.svg" },
-];
-
 export default function HomePage() {
   const videoRef = useRef<HTMLVideoElement>(null);
   const heroRef = useRef<HTMLDivElement>(null);
@@ -92,9 +79,6 @@ export default function HomePage() {
     observer.observe(video);
     return () => observer.disconnect();
   }, []);
-
-  const row1 = [...brandLogos, ...brandLogos];
-  const row2 = [...brandLogos.slice(5), ...brandLogos.slice(0, 5), ...brandLogos.slice(5), ...brandLogos.slice(0, 5)];
 
   return (
     <>
@@ -191,65 +175,10 @@ export default function HomePage() {
       </section>
 
       {/* ═══════════════════════════════════════════════════
-          SECTION 2: LEGACY — Stats + Brand Marquee
+          SECTION 2: STATS
           ═══════════════════════════════════════════════════ */}
       <section className="relative overflow-hidden">
-        {/* Stats */}
         <StatsSection />
-
-        {/* Brand Marquee */}
-        <div className="py-12 md:py-16 border-b border-secondary/10">
-          <ScrollReveal className="text-center mb-8 md:mb-12 px-5 md:px-20 max-w-[1440px] mx-auto">
-            <h2
-              className="text-[22px] md:text-[32px] lg:text-[40px] mb-3 text-on-surface"
-              style={{ fontFamily: "var(--font-playfair-display)" }}
-            >
-              Trusted by the World&apos;s Finest Houses
-            </h2>
-            <p
-              className="text-[14px] md:text-[16px] text-on-surface-variant"
-              style={{ fontFamily: "var(--font-inter)" }}
-            >
-              Supplying luxury textiles to iconic fashion brands globally
-            </p>
-          </ScrollReveal>
-
-          {/* Marquee Row 1 - Left to Right */}
-          <div className="relative mb-4 md:mb-6">
-            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10" />
-            <div className="flex items-center animate-scroll-left" style={{ width: "max-content" }}>
-              {row1.map((brand, i) => (
-                <div key={i} className="flex-shrink-0 mx-6 md:mx-10 w-[140px] md:w-[200px] h-12 md:h-16 flex items-center justify-center">
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    className="max-h-[30px] md:max-h-[44px] w-auto max-w-[100px] md:max-w-[160px] object-contain opacity-50 hover:opacity-100 transition-opacity duration-300"
-                    style={{ filter: "invert(1)" }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Marquee Row 2 - Right to Left */}
-          <div className="relative">
-            <div className="absolute left-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-r from-background to-transparent z-10" />
-            <div className="absolute right-0 top-0 bottom-0 w-16 md:w-32 bg-gradient-to-l from-background to-transparent z-10" />
-            <div className="flex items-center animate-scroll-right" style={{ width: "max-content" }}>
-              {row2.map((brand, i) => (
-                <div key={i} className="flex-shrink-0 mx-6 md:mx-10 w-[140px] md:w-[200px] h-12 md:h-16 flex items-center justify-center">
-                  <img
-                    src={brand.logo}
-                    alt={brand.name}
-                    className="max-h-[30px] md:max-h-[44px] w-auto max-w-[100px] md:max-w-[160px] object-contain opacity-50 hover:opacity-100 transition-opacity duration-300"
-                    style={{ filter: "invert(1)" }}
-                  />
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
       </section>
 
       {/* ═══════════════════════════════════════════════════

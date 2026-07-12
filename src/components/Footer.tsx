@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const quickLinks = [
   { label: "Collections", href: "/collections" },
@@ -7,11 +8,7 @@ const quickLinks = [
   { label: "Craftsmanship", href: "/heritage" },
 ];
 
-const legalLinks = [
-  { label: "Privacy Policy", href: "#" },
-  { label: "Terms of Service", href: "#" },
-  { label: "Shipping & Returns", href: "#" },
-];
+const legalLinks: never[] = [];
 
 export default function Footer() {
   return (
@@ -21,16 +18,14 @@ export default function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-12 gap-12 md:gap-8">
           {/* Brand Column */}
           <div className="md:col-span-5 space-y-6">
-            <Link
-              href="/"
-              className="inline-block text-[36px] md:text-[40px] font-black uppercase text-on-surface hover:text-secondary transition-colors duration-300"
-              style={{
-                fontFamily: "var(--font-playfair-display)",
-                letterSpacing: "-0.08em",
-              }}
-            >
-              Aksharkala
-            </Link>
+            <Image
+              src="/aksharkala-logo.png"
+              alt="Aksharkala"
+              width={180}
+              height={50}
+              className="h-14 w-auto"
+              priority
+            />
             <p
               className="text-[14px] text-on-surface-variant max-w-sm leading-[1.8]"
               style={{ fontFamily: "var(--font-inter)" }}
@@ -86,7 +81,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="https://wa.me/919876543210"
+                href="https://wa.me/919265854905"
                 target="_blank"
                 rel="noopener noreferrer"
                 aria-label="Contact us on WhatsApp"
@@ -145,7 +140,7 @@ export default function Footer() {
             <ul className="space-y-4">
               <li>
                 <a
-                  href="mailto:wholesale@aksharkala.com"
+                  href="mailto:info@aksharkala.com"
                   className="text-[14px] text-on-surface-variant hover:text-secondary transition-colors duration-300 inline-flex items-center gap-2 cursor-pointer"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
@@ -163,12 +158,12 @@ export default function Footer() {
                     <rect width="20" height="16" x="2" y="4" rx="2" />
                     <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7" />
                   </svg>
-                  wholesale@aksharkala.com
+                  info@aksharkala.com
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+919876543210"
+                  href="tel:+919265854905"
                   className="text-[14px] text-on-surface-variant hover:text-secondary transition-colors duration-300 inline-flex items-center gap-2 cursor-pointer"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
@@ -185,7 +180,7 @@ export default function Footer() {
                   >
                     <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z" />
                   </svg>
-                  +91 98765 43210
+                  +91 92658 54905
                 </a>
               </li>
               <li className="flex items-start gap-2">
@@ -207,9 +202,9 @@ export default function Footer() {
                   className="text-[14px] text-on-surface-variant leading-[20px]"
                   style={{ fontFamily: "var(--font-inter)" }}
                 >
-                  Textile District, Varanasi,
+                  V-1132 Surat Textile Market(STM),
                   <br />
-                  Uttar Pradesh, India
+                  Ring Road, Surat, 395002
                 </span>
               </li>
             </ul>

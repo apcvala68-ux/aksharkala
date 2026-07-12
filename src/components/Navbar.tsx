@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Link from "next/link";
+import Image from "next/image";
 
 const navLinks = [
   { label: "Collections", href: "/collections" },
@@ -37,14 +38,17 @@ export default function Navbar() {
           ))}
         </ul>
 
-        {/* Center Brand Name */}
+        {/* Center Brand Logo */}
         <div className="flex justify-center w-1/3">
-          <Link
-            href="/"
-            className="text-[26px] md:text-[32px] font-black uppercase text-on-surface hover:text-secondary transition-colors"
-            style={{ fontFamily: "var(--font-playfair-display)", letterSpacing: "-0.08em" }}
-          >
-            Aksharkala
+          <Link href="/" className="block">
+            <Image
+              src="/aksharkala-logo.png"
+              alt="Aksharkala"
+              width={120}
+              height={40}
+              className="h-10 w-auto"
+              priority
+            />
           </Link>
         </div>
 
@@ -77,12 +81,14 @@ export default function Navbar() {
           </span>
         </button>
 
-        <Link
-          href="/"
-          className="text-[20px] font-black uppercase text-on-surface"
-          style={{ fontFamily: "var(--font-playfair-display)", letterSpacing: "-0.08em" }}
-        >
-          Aksharkala
+        <Link href="/" className="block">
+          <Image
+            src="/aksharkala-logo.png"
+            alt="Aksharkala"
+            width={80}
+            height={30}
+            className="h-8 w-auto"
+          />
         </Link>
 
         {/* Empty placeholder to keep title centered */}
