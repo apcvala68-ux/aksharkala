@@ -263,7 +263,6 @@ export default function Footer() {
             >
               &copy; 2025 Aksharkala Global. All rights reserved.
             </p>
-            </div>
           </div>
         </div>
       </div>
