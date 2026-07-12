@@ -68,6 +68,10 @@ export const metadata: Metadata = {
     description: "Handcrafted Banarasi silk sarees and luxury Indian textiles.",
     images: ["/aksharkala-logo.png"],
   },
+  icons: {
+    icon: "/lotus-favicon.png",
+    apple: "/lotus-favicon.png",
+  },
 };
 
 export default function RootLayout({
@@ -78,8 +82,6 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${montserrat.variable} ${inter.variable}`}>
       <head>
-        <link rel="icon" href="/lotus-favicon.png" type="image/png" />
-        <link rel="apple-touch-icon" href="/lotus-favicon.png" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
