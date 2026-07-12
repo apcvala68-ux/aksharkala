@@ -8,8 +8,6 @@ const quickLinks = [
   { label: "Craftsmanship", href: "/heritage" },
 ];
 
-const legalLinks: never[] = [];
-
 export default function Footer() {
   return (
     <footer className="relative z-10 w-full mt-auto bg-surface-container-lowest/90 backdrop-blur-md border-t border-secondary/10">
@@ -265,17 +263,6 @@ export default function Footer() {
             >
               &copy; 2025 Aksharkala Global. All rights reserved.
             </p>
-            <div className="flex items-center gap-6">
-              {legalLinks.map((link) => (
-                <Link
-                  key={link.label}
-                  href={link.href}
-                  className="text-[12px] text-on-surface-variant/60 hover:text-secondary transition-colors duration-300 cursor-pointer"
-                  style={{ fontFamily: "var(--font-inter)" }}
-                >
-                  {link.label}
-                </Link>
-              ))}
             </div>
           </div>
         </div>
