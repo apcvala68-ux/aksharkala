@@ -45,11 +45,28 @@ export const metadata: Metadata = {
     "B2B textile wholesale",
     "Indian bridal saree",
   ],
+  metadataBase: new URL("https://aksharkala.com"),
   openGraph: {
     title: "Aksharkala - Luxury Indian Textiles",
     description: "Handcrafted Banarasi silk sarees and luxury Indian textiles for global luxury houses.",
+    url: "https://aksharkala.com",
+    siteName: "Aksharkala",
+    images: [
+      {
+        url: "/aksharkala-logo.png",
+        width: 1200,
+        height: 630,
+        alt: "Aksharkala - Luxury Indian Textiles",
+      },
+    ],
     type: "website",
     locale: "en_US",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Aksharkala - Luxury Indian Textiles",
+    description: "Handcrafted Banarasi silk sarees and luxury Indian textiles.",
+    images: ["/aksharkala-logo.png"],
   },
 };
 
@@ -61,6 +78,8 @@ export default function RootLayout({
   return (
     <html lang="en" className={`${playfairDisplay.variable} ${montserrat.variable} ${inter.variable}`}>
       <head>
+        <link rel="icon" href="/lotus-favicon.png" type="image/png" />
+        <link rel="apple-touch-icon" href="/lotus-favicon.png" />
         <link
           href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
           rel="stylesheet"
