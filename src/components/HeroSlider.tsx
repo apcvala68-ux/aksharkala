@@ -48,7 +48,7 @@ export default function HeroSlider({
   // Auto-advance every 5s, pause on hover/touch/off-screen
   useEffect(() => {
     if (!slides || slides.length < 2 || isPaused) return;
-    timerRef.current = setInterval(goNext, 5000);
+    timerRef.current = setInterval(goNext, 8000);
     return () => clearInterval(timerRef.current);
   }, [slides, slides?.length, isPaused, goNext]);
 
