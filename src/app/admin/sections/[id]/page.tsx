@@ -180,7 +180,7 @@ export default function SectionEditorPage() {
   };
 
   const renderList = (label: string, path: string, fields: { key: string; label: string; type: "text" | "textarea" | "image" | "select"; options?: { value: string; label: string }[] }[], template: Record<string, unknown>) => {
-    const items = (getValue(path) as any[]) || [];
+    const items = Array.isArray(getValue(path)) ? (getValue(path) as any[]) : [];
     return (
       <div className="mb-6">
         <div className="flex items-center justify-between mb-3">

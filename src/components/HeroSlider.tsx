@@ -27,7 +27,7 @@ export default function HeroSlider({
   content?: HeroContent;
   children?: React.ReactNode;
 }) {
-  const media = content?.media || [];
+  const media = Array.isArray(content?.media) ? content.media : [];
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const timerRef = useRef<ReturnType<typeof setInterval>>(undefined);
@@ -180,10 +180,10 @@ export default function HeroSlider({
           </p>
         </ScrollReveal>
 
-        {(content?.buttons?.length ?? 0) > 0 && (
+        {Array.isArray(content?.buttons) && content.buttons.length > 0 && (
           <ScrollReveal delay={1000}>
             <div className="flex flex-row justify-center items-center gap-3 sm:gap-6 pt-6 md:pt-8 w-full max-w-[420px] md:max-w-[500px] mx-auto">
-              {content!.buttons!.map((btn, i) =>
+              {content.buttons.map((btn, i) =>
                 i === 0 ? (
                   <a
                     key={btn.text}

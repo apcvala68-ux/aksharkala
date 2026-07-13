@@ -1,7 +1,11 @@
 import { NextResponse } from "next/server";
-import { createClient } from "@/utils/supabase/server";
 
 export async function GET() {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY) {
+    return NextResponse.json({}, { status: 200 });
+  }
+
+  const { createClient } = await import("@/utils/supabase/server");
   const supabase = await createClient();
   const { data, error } = await supabase
     .from("sections")
@@ -9,8 +13,8 @@ export async function GET() {
     .eq("is_active", true)
     .order("sort_order");
 
-  if (error) {
-    return NextResponse.json({ error: error.message }, { status: 500 });
+  if (error || !data) {
+    return NextResponse.json({}, { status: 200 });
   }
 
   const map: Record<string, unknown> = {};

@@ -16,7 +16,7 @@ const DEFAULT_BUTTONS = [
 export default function CTASection({ content }: { content?: CTAContent }) {
   const headline = content?.headline || "Begin Your Journey";
   const subtitle = content?.subtitle || "Discover our curated collections — each piece a testament to the enduring beauty of handcraft.";
-  const buttons = content?.buttons && content.buttons.length > 0 ? content.buttons : DEFAULT_BUTTONS;
+  const buttons = Array.isArray(content?.buttons) && content.buttons.length > 0 ? content.buttons : DEFAULT_BUTTONS;
 
   return (
     <section className="py-8 md:py-12 lg:py-16 px-5 md:px-20 max-w-[1440px] mx-auto text-center">

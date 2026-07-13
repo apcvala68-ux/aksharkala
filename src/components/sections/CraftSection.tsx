@@ -42,7 +42,7 @@ const DEFAULT_CARDS: CraftCard[] = [
 ];
 
 export default function CraftSection({ content }: { content?: CraftContent }) {
-  const cards = content?.cards && content.cards.length > 0 ? content.cards : DEFAULT_CARDS;
+  const cards = Array.isArray(content?.cards) && content.cards.length > 0 ? content.cards : DEFAULT_CARDS;
   const tagline = content?.tagline || "Curated Excellence";
   const headline = content?.headline || "The Collections";
 

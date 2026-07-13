@@ -56,7 +56,7 @@ function Icon({ name }: { name?: string }) {
 }
 
 export default function PromiseSection({ content }: { content?: PromiseContent }) {
-  const cards = content?.cards && content.cards.length > 0 ? content.cards : DEFAULT_CARDS;
+  const cards = Array.isArray(content?.cards) && content.cards.length > 0 ? content.cards : DEFAULT_CARDS;
   const headline = content?.headline || "The Art of the Hand-Woven";
   const subtitle = content?.subtitle || "Each Aksharkala piece undergoes a rigorous 300-hour weaving process.";
 
