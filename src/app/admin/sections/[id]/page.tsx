@@ -346,7 +346,7 @@ export default function SectionEditorPage() {
         <>
           {renderList("Media Slides", "media", [
             { key: "type", label: "Type", type: "select", options: [{ value: "image", label: "Image" }, { value: "video", label: "Video" }] },
-            { key: "url", label: "URL", type: "text" },
+            { key: "url", label: "Image/Video URL", type: "image" },
             { key: "poster", label: "Video Poster", type: "image" },
             { key: "alt", label: "Alt Text", type: "text" },
           ], { type: "image", url: "", alt: "" })}
