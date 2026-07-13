@@ -10,6 +10,7 @@ const breadcrumbMap: Record<string, string> = {
   products: "Products",
   categories: "Categories",
   collections: "Collections",
+  sections: "Sections",
   inquiries: "Inquiries",
   orders: "Orders",
   analytics: "Analytics",

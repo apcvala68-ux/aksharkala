@@ -18,6 +18,7 @@ import {
   X,
   Tag,
   Layers,
+  Layout,
 } from "lucide-react";
 
 const navItems = [
@@ -25,6 +26,7 @@ const navItems = [
   { href: "/admin/products", label: "Products", icon: Package },
   { href: "/admin/categories", label: "Categories", icon: Tag },
   { href: "/admin/collections", label: "Collections", icon: Layers },
+  { href: "/admin/sections", label: "Sections", icon: Layout },
   { href: "/admin/inquiries", label: "Inquiries", icon: MessageSquare },
   { href: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { href: "/admin/analytics", label: "Analytics", icon: BarChart3 },
