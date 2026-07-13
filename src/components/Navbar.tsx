@@ -47,6 +47,7 @@ export default function Navbar() {
               width={120}
               height={40}
               className="h-10 w-auto brightness-[1.5] contrast-[1.15]"
+              style={{ width: "auto", height: "auto" }}
               priority
             />
           </Link>
@@ -88,6 +89,7 @@ export default function Navbar() {
             width={80}
             height={30}
             className="h-8 w-auto brightness-[1.5] contrast-[1.15]"
+            style={{ width: "auto", height: "auto" }}
           />
         </Link>
 

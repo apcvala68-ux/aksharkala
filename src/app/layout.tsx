@@ -68,10 +68,6 @@ export const metadata: Metadata = {
     description: "Handcrafted Banarasi silk sarees and luxury Indian textiles.",
     images: ["/aksharkala-logo.png"],
   },
-  icons: {
-    icon: "/lotus-favicon.png",
-    apple: "/lotus-favicon.png",
-  },
 };
 
 export default function RootLayout({

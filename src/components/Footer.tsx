@@ -22,6 +22,7 @@ export default function Footer() {
               width={180}
               height={50}
               className="h-10 md:h-14 w-auto brightness-[1.5] contrast-[1.15]"
+              style={{ width: "auto", height: "auto" }}
               priority
             />
             <p
