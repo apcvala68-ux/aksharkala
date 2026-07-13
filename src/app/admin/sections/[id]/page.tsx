@@ -47,7 +47,7 @@ export default function SectionEditorPage() {
         if (!current[keys[i]] || typeof current[keys[i]] !== "object") {
           current[keys[i]] = {};
         }
-        current[keys[i]] = { ...current[keys[i]] };
+        current[keys[i]] = Array.isArray(current[keys[i]]) ? [...current[keys[i]]] : { ...current[keys[i]] };
         current = current[keys[i]];
       }
       current[keys[keys.length - 1]] = value;
@@ -61,7 +61,8 @@ export default function SectionEditorPage() {
       const keys = path.split(".");
       let current: any = newContent;
       for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) current[keys[i]] = {};
+        if (!current[keys[i]] || typeof current[keys[i]] !== "object") current[keys[i]] = {};
+        current[keys[i]] = Array.isArray(current[keys[i]]) ? [...current[keys[i]]] : { ...current[keys[i]] };
         current = current[keys[i]];
       }
       const arr = Array.isArray(current[keys[keys.length - 1]]) ? [...current[keys[keys.length - 1]]] : [];
@@ -77,7 +78,8 @@ export default function SectionEditorPage() {
       const keys = path.split(".");
       let current: any = newContent;
       for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) return prev;
+        if (!current[keys[i]] || typeof current[keys[i]] !== "object") return prev;
+        current[keys[i]] = Array.isArray(current[keys[i]]) ? [...current[keys[i]]] : { ...current[keys[i]] };
         current = current[keys[i]];
       }
       const arr = Array.isArray(current[keys[keys.length - 1]]) ? [...current[keys[keys.length - 1]]] : [];
@@ -93,7 +95,8 @@ export default function SectionEditorPage() {
       const keys = path.split(".");
       let current: any = newContent;
       for (let i = 0; i < keys.length - 1; i++) {
-        if (!current[keys[i]]) return prev;
+        if (!current[keys[i]] || typeof current[keys[i]] !== "object") return prev;
+        current[keys[i]] = Array.isArray(current[keys[i]]) ? [...current[keys[i]]] : { ...current[keys[i]] };
         current = current[keys[i]];
       }
       const arr = Array.isArray(current[keys[keys.length - 1]]) ? [...current[keys[keys.length - 1]]] : [];
