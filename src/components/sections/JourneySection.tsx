@@ -28,9 +28,9 @@ export default function JourneySection({ content }: { content?: JourneyContent }
 
   return (
     <section className="py-8 md:py-12 lg:py-16 px-5 md:px-20 max-w-[1440px] mx-auto">
-      <div className="grid md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center">
+      <div className="grid md:grid-cols-[2fr_3fr] gap-8 md:gap-12 lg:gap-16 items-center">
         <ScrollReveal direction="left" className="order-2 md:order-1">
-          <div className="relative aspect-[4/5] overflow-hidden gold-border group">
+          <div className="relative aspect-[3/4] overflow-hidden gold-border group">
             <Image
               src={img}
               alt="Heritage Loom"

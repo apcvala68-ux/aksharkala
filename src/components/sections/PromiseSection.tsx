@@ -84,20 +84,20 @@ export default function PromiseSection({ content }: { content?: PromiseContent }
           </p>
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-8 w-full">
+        <div className="grid md:grid-cols-3 gap-4 md:gap-6 lg:gap-8 w-full">
           {cards.map((card, i) => (
             <ScrollReveal key={card.title || i} delay={i * 100}>
-              <div className="stat-card-luxury p-8 flex flex-col items-center text-center gap-4 group cursor-default h-full">
-                <div className="w-12 h-12 rounded-full bg-secondary/5 flex items-center justify-center text-secondary border border-secondary/25 group-hover:bg-secondary group-hover:text-black transition-all duration-500">
+              <div className="stat-card-luxury p-5 md:p-8 flex flex-col items-center text-center gap-4 group cursor-default h-full">
+                <div className="w-10 h-10 md:w-12 md:h-12 rounded-full bg-secondary/5 flex items-center justify-center text-secondary border border-secondary/25 group-hover:bg-secondary group-hover:text-black transition-all duration-500">
                   <Icon name={card.icon} />
                 </div>
                 {card.title && (
-                  <h3 className="text-[18px] md:text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
+                  <h3 className="text-[16px] md:text-[20px] lg:text-[22px] text-on-surface font-medium" style={{ fontFamily: "var(--font-playfair-display)" }}>
                     {card.title}
                   </h3>
                 )}
                 {card.description && (
-                  <p className="text-[14px] leading-[1.6] text-on-surface-variant" style={{ fontFamily: "var(--font-inter)" }}>
+                  <p className="text-[13px] md:text-[14px] leading-[1.6] text-on-surface-variant" style={{ fontFamily: "var(--font-inter)" }}>
                     {card.description}
                   </p>
                 )}

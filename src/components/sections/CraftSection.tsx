@@ -47,18 +47,18 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
   const headline = content?.headline || "The Collections";
 
   return (
-    <section className="py-8 md:py-12 lg:py-16">
-      <div className="px-5 md:px-20 max-w-[1440px] mx-auto">
-        <ScrollReveal className="text-center mb-8 md:mb-10">
+    <section className="py-8 sm:py-10 md:py-12 lg:py-16">
+      <div className="px-5 sm:px-8 md:px-12 lg:px-20 max-w-[1440px] mx-auto">
+        <ScrollReveal className="text-center mb-6 sm:mb-8 md:mb-10">
           <div className="gold-divider w-16 mx-auto mb-6" />
           <p
-            className="text-[13px] tracking-[0.25em] uppercase text-secondary mb-3"
+            className="text-[12px] sm:text-[13px] tracking-[0.25em] uppercase text-secondary mb-3"
             style={{ fontFamily: "var(--font-inter)", fontWeight: 600 }}
           >
             {tagline}
           </p>
           <h2
-            className="text-[24px] md:text-[36px] lg:text-[48px] text-on-surface"
+            className="text-[22px] sm:text-[28px] md:text-[36px] lg:text-[48px] text-on-surface"
             style={{ fontFamily: "var(--font-playfair-display)" }}
           >
             {headline}
@@ -66,27 +66,46 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
           <div className="gold-divider w-20 mx-auto mt-4" />
         </ScrollReveal>
 
-        <div className="grid md:grid-cols-3 gap-6 md:gap-10">
+        {/*
+          Grid steps: 1 col (phone) -> 2 col (tablet, 640-1023px) -> 3 col (lg+).
+          The old `md:grid-cols-3` jumped straight from 1 to 3 columns at 768px,
+          which is exactly tablet-portrait territory - cards were squeezed to
+          ~180px wide with a 2:3 aspect ratio. This adds the missing middle step.
+        */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 lg:gap-8">
           {cards.map((card, index) => (
             <ScrollReveal key={card.title || index} delay={index * 100}>
               <a
                 href={card.link || "/collections"}
-                className="group relative overflow-hidden aspect-[2/3] border border-secondary/30 hover:shadow-[0_0_60px_rgba(198,169,114,0.3)] transition-all duration-500 block cursor-pointer"
+                className="group relative overflow-hidden aspect-[3/4] sm:aspect-[2/3] border border-secondary/30 hover:shadow-[0_0_60px_rgba(198,169,114,0.3)] transition-all duration-500 block cursor-pointer"
               >
                 {card.image && (
                   <Image
                     src={card.image}
                     alt={card.title || ""}
                     fill
-                    sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1023px) 50vw, 33vw"
                     className="object-cover transition-transform duration-700 ease-out group-hover:scale-105"
                   />
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-secondary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute inset-x-3 bottom-3 md:inset-x-4 md:bottom-4 glass-panel border-secondary/25 p-4 md:p-6 flex flex-col justify-end translate-y-[40px] md:translate-y-[62px] group-hover:translate-y-0 transition-transform duration-500 ease-out">
-                  <div className="flex justify-between items-start mb-2">
-                    <div>
+
+                {/*
+                  Original version hid the description behind a hover-only
+                  translate/opacity toggle. Touch devices (all phones and
+                  tablets) never trigger :hover, so the description was
+                  permanently invisible there - not "less responsive", just
+                  broken. Now: content is fully visible by default, and the
+                  hover-collapse "reveal on hover" treatment only applies at
+                  lg+ where a mouse is the reasonable assumption. This is a
+                  breakpoint-as-proxy-for-hover-capability tradeoff, not a
+                  true `(hover: hover)` media query - flag if you want the
+                  real thing added via a Tailwind plugin.
+                */}
+                <div className="absolute inset-x-3 bottom-3 md:inset-x-4 md:bottom-4 glass-panel border-secondary/25 p-4 md:p-5 lg:p-6 flex flex-col justify-end transition-transform duration-500 ease-out lg:translate-y-[56px] lg:group-hover:translate-y-0">
+                  <div className="flex justify-between items-start gap-2 mb-2">
+                    <div className="min-w-0">
                       {card.tagline && (
                         <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-secondary font-semibold block mb-1">
                           {card.tagline}
@@ -94,14 +113,14 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
                       )}
                       {card.title && (
                         <h3
-                          className="text-white text-[20px] md:text-[28px] font-medium leading-tight"
+                          className="text-white text-[18px] sm:text-[20px] md:text-[28px] font-medium leading-tight break-words"
                           style={{ fontFamily: "var(--font-playfair-display)" }}
                         >
                           {card.title}
                         </h3>
                       )}
                     </div>
-                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
+                    <div className="w-7 h-7 md:w-8 md:h-8 shrink-0 rounded-full border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:-rotate-45">
                         <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -109,7 +128,7 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
                   </div>
                   {card.description && (
                     <p
-                      className="text-[11px] md:text-[12px] leading-relaxed text-on-surface-variant/90 border-t border-secondary/10 pt-2 md:pt-3 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
+                      className="text-[11px] md:text-[12px] leading-relaxed text-on-surface-variant/90 border-t border-secondary/10 pt-2 md:pt-3 mt-1 lg:opacity-0 lg:group-hover:opacity-100 transition-opacity duration-500 lg:delay-100"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {card.description}
