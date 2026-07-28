@@ -84,11 +84,11 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
                 )}
                 <div className="absolute inset-0 bg-gradient-to-t from-black/95 via-black/30 to-transparent opacity-90 transition-opacity duration-500 group-hover:opacity-100" />
                 <div className="absolute inset-x-0 top-0 h-[1px] bg-gradient-to-r from-transparent via-secondary/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-700" />
-                <div className="absolute inset-x-4 bottom-4 glass-panel border-secondary/25 p-6 flex flex-col justify-end translate-y-[62px] group-hover:translate-y-0 transition-transform duration-500 ease-out">
+                <div className="absolute inset-x-3 bottom-3 md:inset-x-4 md:bottom-4 glass-panel border-secondary/25 p-4 md:p-6 flex flex-col justify-end translate-y-[40px] md:translate-y-[62px] group-hover:translate-y-0 transition-transform duration-500 ease-out">
                   <div className="flex justify-between items-start mb-2">
                     <div>
                       {card.tagline && (
-                        <span className="text-[10px] uppercase tracking-[0.2em] text-secondary font-semibold block mb-1">
+                        <span className="text-[9px] md:text-[10px] uppercase tracking-[0.2em] text-secondary font-semibold block mb-1">
                           {card.tagline}
                         </span>
                       )}
@@ -101,7 +101,7 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
                         </h3>
                       )}
                     </div>
-                    <div className="w-8 h-8 rounded-full border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
+                    <div className="w-7 h-7 md:w-8 md:h-8 rounded-full border border-secondary/30 flex items-center justify-center text-secondary group-hover:bg-secondary group-hover:text-black transition-all duration-500 mt-1">
                       <svg width="16" height="16" viewBox="0 0 16 16" fill="none" className="transition-transform duration-300 group-hover:-rotate-45">
                         <path d="M3 8H13M13 8L9 4M13 8L9 12" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" />
                       </svg>
@@ -109,7 +109,7 @@ export default function CraftSection({ content }: { content?: CraftContent }) {
                   </div>
                   {card.description && (
                     <p
-                      className="text-[12px] leading-relaxed text-on-surface-variant/90 border-t border-secondary/10 pt-3 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
+                      className="text-[11px] md:text-[12px] leading-relaxed text-on-surface-variant/90 border-t border-secondary/10 pt-2 md:pt-3 mt-1 opacity-0 group-hover:opacity-100 transition-opacity duration-500 delay-100"
                       style={{ fontFamily: "var(--font-inter)" }}
                     >
                       {card.description}
